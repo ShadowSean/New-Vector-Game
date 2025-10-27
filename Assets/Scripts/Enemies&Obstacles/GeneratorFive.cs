@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class SecondGeneratorLogic : MonoBehaviour
+public class GeneratorFive : MonoBehaviour
 {
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
-    public GameObject repairedTwo;
+    public GameObject repairedFIve;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -15,8 +15,8 @@ public class SecondGeneratorLogic : MonoBehaviour
     public float textDuration = 5f;
 
     bool inRange;
-    public static bool isSecondFixed;
-    
+    public static bool isFifthFixed;
+
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class SecondGeneratorLogic : MonoBehaviour
     {
         if (inRange)
         {
-            if (CrateTwoUI.partsCollectedTwo && !isSecondFixed)
+            if (CrateFiveUI.partsCollectedFive && !isFifthFixed)
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -38,18 +38,18 @@ public class SecondGeneratorLogic : MonoBehaviour
                     if (repairPercentage.value >= repairPercentage.maxValue)
                     {
                         repairPercentage.value = repairPercentage.maxValue;
-                        isSecondFixed = true;
-                        
-                        StartCoroutine(GeneratorRepairedTwo());
-                        
+                        isFifthFixed = true;
+
+                        StartCoroutine(GeneratorRepairedFive());
+
                     }
                 }
             }
-            else if (!CrateTwoUI.partsCollectedTwo)
+            else if (!CrateFiveUI.partsCollectedFive)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    StartCoroutine(ShowPartsMessageTwo());
+                    StartCoroutine(ShowPartsMessageFive());
                 }
             }
         }
@@ -78,7 +78,7 @@ public class SecondGeneratorLogic : MonoBehaviour
         }
     }
 
-    IEnumerator ShowPartsMessageTwo()
+    IEnumerator ShowPartsMessageFive()
     {
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(true);
@@ -86,10 +86,10 @@ public class SecondGeneratorLogic : MonoBehaviour
         partsNeeded.SetActive(false);
     }
 
-    IEnumerator GeneratorRepairedTwo()
+    IEnumerator GeneratorRepairedFive()
     {
-        repairedTwo.SetActive(true);
+        repairedFIve.SetActive(true);
         yield return new WaitForSeconds(textDuration);
-        repairedTwo.SetActive(false);
+        repairedFIve.SetActive(false);
     }
 }

@@ -16,7 +16,7 @@ public class GeneratorLogic : MonoBehaviour
 
     bool inRange;
     public static bool isFixed;
-    public GameObject secondGenerator;
+    
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class GeneratorLogic : MonoBehaviour
                     {
                         repairPercentage.value = repairPercentage.maxValue;
                         isFixed = true;
-                        secondGenerator.SetActive(true);
+                        
                         StartCoroutine(GeneratorRepairedOne());
                         Debug.Log("Power Restored.");
                     }

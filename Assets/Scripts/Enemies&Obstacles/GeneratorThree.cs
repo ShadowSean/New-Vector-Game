@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class SecondGeneratorLogic : MonoBehaviour
+public class GeneratorThree : MonoBehaviour
 {
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
-    public GameObject repairedTwo;
+    public GameObject repairedThree;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -15,8 +15,8 @@ public class SecondGeneratorLogic : MonoBehaviour
     public float textDuration = 5f;
 
     bool inRange;
-    public static bool isSecondFixed;
-    
+    public static bool isThirdFixed;
+
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class SecondGeneratorLogic : MonoBehaviour
     {
         if (inRange)
         {
-            if (CrateTwoUI.partsCollectedTwo && !isSecondFixed)
+            if (CrateThreeUI.partsCollectedThree && !isThirdFixed)
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -38,18 +38,18 @@ public class SecondGeneratorLogic : MonoBehaviour
                     if (repairPercentage.value >= repairPercentage.maxValue)
                     {
                         repairPercentage.value = repairPercentage.maxValue;
-                        isSecondFixed = true;
-                        
-                        StartCoroutine(GeneratorRepairedTwo());
-                        
+                        isThirdFixed = true;
+
+                        StartCoroutine(GeneratorRepairedThree());
+
                     }
                 }
             }
-            else if (!CrateTwoUI.partsCollectedTwo)
+            else if (!CrateThreeUI.partsCollectedThree)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    StartCoroutine(ShowPartsMessageTwo());
+                    StartCoroutine(ShowPartsMessageThree());
                 }
             }
         }
@@ -78,7 +78,7 @@ public class SecondGeneratorLogic : MonoBehaviour
         }
     }
 
-    IEnumerator ShowPartsMessageTwo()
+    IEnumerator ShowPartsMessageThree()
     {
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(true);
@@ -86,10 +86,10 @@ public class SecondGeneratorLogic : MonoBehaviour
         partsNeeded.SetActive(false);
     }
 
-    IEnumerator GeneratorRepairedTwo()
+    IEnumerator GeneratorRepairedThree()
     {
-        repairedTwo.SetActive(true);
+        repairedThree.SetActive(true);
         yield return new WaitForSeconds(textDuration);
-        repairedTwo.SetActive(false);
+        repairedThree.SetActive(false);
     }
 }
