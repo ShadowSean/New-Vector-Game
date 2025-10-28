@@ -7,9 +7,11 @@ public class Vector9Movement : MonoBehaviour
     [SerializeField] private Transform playerPosition;
     [SerializeField] private Transform[] patrolAreas;
 
+    public Animator animator;
+
     [SerializeField] float waitTime = 2f;
     [SerializeField] float vectorPatrolSpeed = 2f;
-    [SerializeField] float vectorChaseSpeed = 6f;
+    [SerializeField] float vectorChaseSpeed = 10f;
     
     int currentPatrolIndex = 0;
     bool isPlayerInRange;
@@ -46,6 +48,7 @@ public class Vector9Movement : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
+            animator.speed = 5f;
             agent.speed = vectorChaseSpeed;
             agent.destination = playerPosition.position;
         }
@@ -55,6 +58,7 @@ public class Vector9Movement : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            animator.speed = 1f;
             isPlayerInRange = true;
             agent.speed = vectorPatrolSpeed;
 
