@@ -2,30 +2,25 @@ using UnityEngine;
 
 public class KeyCard : MonoBehaviour
 {
-    public GameObject inticon, keycard, playerCursor;
+    public GameObject inticon, playerCursor;
 
-    private void OnTriggerStay(Collider other)
+    bool isLookedAt;
+
+    public void ShowInteractPromt(bool show)
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            inticon.SetActive(true);
-            playerCursor.SetActive(false);
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                keycard.SetActive(false);
-                inticon.SetActive(false);
-                Door.keyFound = true;
-                playerCursor.SetActive(true);
-            }
-        }
+        if(inticon != null) inticon.SetActive(show);
+        if(playerCursor != null) playerCursor.SetActive(!show);
+        isLookedAt = show;
     }
 
-    private void OnTriggerExit(Collider other)
+    public void Interact()
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            inticon.SetActive(false);
-            playerCursor.SetActive(true);
-        }
+        Door.keyFound = true;
+        if(inticon != null) inticon.SetActive(false);
+        if(playerCursor != null) playerCursor.SetActive(true);
+
+        gameObject.SetActive(false);
     }
+
+    
 }

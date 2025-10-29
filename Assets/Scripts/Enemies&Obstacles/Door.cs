@@ -12,57 +12,73 @@ public class Door : MonoBehaviour
     //public AudioSource open, close;
 
     public bool opened, locked;
+
+    private Coroutine autoCloseroutine;
     private void Start()
     {
         keyFound = false;
     }
-    private void OnTriggerStay(Collider other)
+    
+    public void Interact()
     {
-        if (other.CompareTag("MainCamera"))
+        if (opened) return;
+
+        if (locked && !keyFound)
         {
-            if (opened == false)
-            {
-                if (locked == false)
-                {
-                    playerScope.SetActive(false);
-                    intText.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        door_closed.SetActive(false);
-                        door_opened.SetActive(true);
-                        intText.SetActive(false);
-                        playerScope.SetActive(true);
-                        //open.Play();
-                        StartCoroutine(repeat());
-                        opened = true;
-                    }
-                }
-                if (locked == true)
-                {
-                    cardlockedtext.SetActive(true);
-                    playerScope.SetActive(false);
-                }
-            }
+            ShowLockedMessage();
+            return;
         }
+        OpenDoor();
     }
 
-    private void OnTriggerExit(Collider other)
+    void OpenDoor()
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            intText.SetActive(false);
-            cardlockedtext.SetActive(false);
-            playerScope.SetActive(true);
-        }
+        door_closed.SetActive(false);
+        door_opened.SetActive(true);
+        intText.SetActive(false);
+        playerScope.SetActive(true);
+        playerScope.SetActive(true);
+        opened = true;
+
+        if (autoCloseroutine != null) StopCoroutine(autoCloseroutine);
+        autoCloseroutine = StartCoroutine(AuotoClose());
     }
 
-    IEnumerator repeat()
+    IEnumerator AuotoClose()
     {
         yield return new WaitForSeconds(4.0f);
         opened = false;
         door_closed.SetActive(true);
         door_opened.SetActive(false);
         //close.Play();
+    }
+
+    void ShowLockedMessage()
+    {
+        cardlockedtext.SetActive(true);
+        playerScope.SetActive(false );
+        intText.SetActive(false);
+        StopAllCoroutines();
+        StartCoroutine(HideLockedText() );
+    }
+
+    IEnumerator HideLockedText()
+    {
+        yield return new WaitForSeconds(2f);
+        cardlockedtext.SetActive(false);
+        playerScope.SetActive(true);
+    }
+
+    public void ShowInteractPromt(bool show)
+    {
+        if(intText != null) intText.SetActive(show);
+
+        if (playerScope != null)
+        {
+            playerScope.SetActive(!show);
+        }
+        
+        
     }
 
     private void Update()
