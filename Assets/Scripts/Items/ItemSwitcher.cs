@@ -11,6 +11,7 @@ public class ItemSwitcher : MonoBehaviour
     private int currentItemIndex = 0;
     private bool hasFlashlight = false;
     private bool hasTaser = false;
+    //private bool hasCodeOne = false;
 
     private void Update()
     {

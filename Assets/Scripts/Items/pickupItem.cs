@@ -13,5 +13,7 @@ public enum ItemType
 {
     None,
     Flashlight,
-    Taser
+    Taser,
+    //CodeOne
+   
 }
