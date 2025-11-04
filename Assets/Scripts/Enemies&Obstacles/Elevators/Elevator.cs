@@ -7,7 +7,7 @@ public class Elevator : MonoBehaviour
     public Button firstUI, secondUI;
     private FPController moveMent;
 
-    bool inRange;
+    
 
 
     private void OnTriggerEnter(Collider other)
@@ -21,7 +21,7 @@ public class Elevator : MonoBehaviour
                 moveMent.lookXLimit = 0;
                 moveMent.LookSpeed = 0;
             }
-            inRange = true;
+            
             playerScope.SetActive(false);
             elevatorUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -51,7 +51,7 @@ public class Elevator : MonoBehaviour
                 moveMent.lookXLimit = 45;
                 moveMent.LookSpeed = 5;
             }
-            inRange = false;
+            
             playerScope.SetActive(true);
             elevatorUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;

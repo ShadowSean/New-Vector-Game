@@ -2,34 +2,34 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class EscapeShip : MonoBehaviour
+public class Pod : MonoBehaviour
 {
-    [Header("Generator Win Settings")]
-    public CanvasGroup generatorWinCanvas;
-    public float fadeDuration = 2f;
+    [Header("Escape Win Settings")]
+    public CanvasGroup escapePodCanvas;    
+    public float fadeDuration = 2f;       
 
     [Header("Player Settings")]
     public GameObject inventory;
     public GameObject staminaAndItem;
     public GameObject scope;
 
-    private bool generatorWin = false;
+    private bool escapePodWin = false;
 
     public string sceneName = "MainMenu";
 
     private void OnTriggerEnter(Collider other)
     {
-        if (generatorWin) return;
+        if (escapePodWin) return;
         if (other.CompareTag("Player"))
         {
-            generatorWin = true;
-            StartCoroutine(GeneratorSequence());
+            escapePodWin = true;
+            StartCoroutine(EscapePodSequence());
         }
     }
 
-    private IEnumerator GeneratorSequence()
+    private IEnumerator EscapePodSequence()
     {
-
+        
         if (inventory) inventory.SetActive(false);
         if (staminaAndItem) staminaAndItem.SetActive(false);
         if (scope) scope.SetActive(false);
@@ -38,8 +38,8 @@ public class EscapeShip : MonoBehaviour
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            if (generatorWinCanvas)
-                generatorWinCanvas.alpha = Mathf.Lerp(0, 1, t / fadeDuration);
+            if (escapePodCanvas)
+                escapePodCanvas.alpha = Mathf.Lerp(0, 1, t / fadeDuration);
             yield return null;
         }
 

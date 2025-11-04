@@ -14,7 +14,7 @@ public class RaycastPickup : MonoBehaviour
     pickupItem currentPickup;
     Door currentDoor;
     KeyCard currentKeyCard;
-    EscapePodCode currentEscapePodCode;
+    
     
     
 
@@ -32,7 +32,7 @@ public class RaycastPickup : MonoBehaviour
             currentPickup = hit.collider.GetComponent<pickupItem>();
             currentDoor = hit.collider.GetComponentInParent<Door>();
             currentKeyCard = hit.collider.GetComponent<KeyCard>();
-            currentEscapePodCode = hit.collider.GetComponent<EscapePodCode>();
+            
 
             if (currentPickup != null)
             {
@@ -62,16 +62,7 @@ public class RaycastPickup : MonoBehaviour
                     currentKeyCard = null;
                 }
             }
-            else if (currentEscapePodCode != null)
-            {
-                currentEscapePodCode.ShowInteractPromt(true);
-                if (Input.GetKeyDown(pickupKey))
-                {
-                    currentEscapePodCode.Interact();
-                    currentEscapePodCode.ShowInteractPromt(false);
-                    currentEscapePodCode = null;
-                }
-            }
+            
         }
         if (!hitSomething)
         {
@@ -85,11 +76,7 @@ public class RaycastPickup : MonoBehaviour
                 currentKeyCard.ShowInteractPromt(false);
                 currentKeyCard = null;
             }
-            if (currentEscapePodCode == null)
-            {
-                currentEscapePodCode.ShowInteractPromt(false);
-                currentEscapePodCode = null;    
-            }
+            
             if (currentPickup != null)
             {
                 currentPickup = null;
