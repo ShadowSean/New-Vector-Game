@@ -8,6 +8,7 @@ public class GeneratorFour : MonoBehaviour
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
     public GameObject repairedFour;
+    public Button closeGeneratorUI;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -16,10 +17,16 @@ public class GeneratorFour : MonoBehaviour
 
     bool inRange;
     public static bool isFourthFixed;
+    private FPController movement;
+
 
 
     private void Start()
     {
+
+        movement = FindFirstObjectByType<FPController>();
+        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
         repairPercentage.gameObject.SetActive(false);
@@ -34,11 +41,15 @@ public class GeneratorFour : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     repairPercentage.value += repairSpeed * Time.deltaTime;
+                    GetComponent<Collider>().enabled = false;
 
                     if (repairPercentage.value >= repairPercentage.maxValue)
                     {
                         repairPercentage.value = repairPercentage.maxValue;
                         isFourthFixed = true;
+
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
 
                         StartCoroutine(GeneratorRepairedFour());
 
@@ -91,5 +102,21 @@ public class GeneratorFour : MonoBehaviour
         repairedFour.SetActive(true);
         yield return new WaitForSeconds(textDuration);
         repairedFour.SetActive(false);
+    }
+
+    void CloseCodeUI()
+    {
+        CloseUI(repairAndGenerator);
+    }
+
+    void CloseUI(GameObject UI)
+    {
+        UI.SetActive(false);
+        if (movement != null)
+        {
+            movement.canMove = true;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

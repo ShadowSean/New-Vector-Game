@@ -8,6 +8,7 @@ public class SecondGeneratorLogic : MonoBehaviour
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
     public GameObject repairedTwo;
+    public Button closeGeneratorUI;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -16,10 +17,15 @@ public class SecondGeneratorLogic : MonoBehaviour
 
     bool inRange;
     public static bool isSecondFixed;
+
+    private FPController movement;
     
 
     private void Start()
     {
+        movement = FindFirstObjectByType<FPController>();
+        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
         repairPercentage.gameObject.SetActive(false);
@@ -34,12 +40,16 @@ public class SecondGeneratorLogic : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     repairPercentage.value += repairSpeed * Time.deltaTime;
+                    GetComponent<Collider>().enabled = false;
 
                     if (repairPercentage.value >= repairPercentage.maxValue)
                     {
                         repairPercentage.value = repairPercentage.maxValue;
                         isSecondFixed = true;
-                        
+
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+
                         StartCoroutine(GeneratorRepairedTwo());
                         
                     }
@@ -59,6 +69,7 @@ public class SecondGeneratorLogic : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            
             playerCursor.SetActive(false);
             inRange = true;
             repairAndGenerator.SetActive(true);
@@ -91,5 +102,21 @@ public class SecondGeneratorLogic : MonoBehaviour
         repairedTwo.SetActive(true);
         yield return new WaitForSeconds(textDuration);
         repairedTwo.SetActive(false);
+    }
+
+    void CloseCodeUI()
+    {
+        CloseUI(repairAndGenerator);
+    }
+
+    void CloseUI(GameObject UI)
+    {
+        UI.SetActive(false);
+        if (movement != null)
+        {
+            movement.canMove = true;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

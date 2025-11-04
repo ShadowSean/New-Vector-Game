@@ -8,6 +8,7 @@ public class GeneratorThree : MonoBehaviour
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
     public GameObject repairedThree;
+    public Button closeGeneratorUI;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -17,9 +18,14 @@ public class GeneratorThree : MonoBehaviour
     bool inRange;
     public static bool isThirdFixed;
 
+    private FPController movement;
+
 
     private void Start()
     {
+        movement = FindFirstObjectByType<FPController>();
+        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
         repairPercentage.gameObject.SetActive(false);
@@ -34,11 +40,16 @@ public class GeneratorThree : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     repairPercentage.value += repairSpeed * Time.deltaTime;
+                    GetComponent<Collider>().enabled = false;
+
 
                     if (repairPercentage.value >= repairPercentage.maxValue)
                     {
                         repairPercentage.value = repairPercentage.maxValue;
                         isThirdFixed = true;
+
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
 
                         StartCoroutine(GeneratorRepairedThree());
 
@@ -91,5 +102,21 @@ public class GeneratorThree : MonoBehaviour
         repairedThree.SetActive(true);
         yield return new WaitForSeconds(textDuration);
         repairedThree.SetActive(false);
+    }
+
+    void CloseCodeUI()
+    {
+        CloseUI(repairAndGenerator);
+    }
+
+    void CloseUI(GameObject UI)
+    {
+        UI.SetActive(false);
+        if (movement != null)
+        {
+            movement.canMove = true;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

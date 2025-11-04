@@ -8,6 +8,7 @@ public class GeneratorFive : MonoBehaviour
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
     public GameObject repairedFIve;
+    public Button closeGeneratorUI;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -17,9 +18,14 @@ public class GeneratorFive : MonoBehaviour
     bool inRange;
     public static bool isFifthFixed;
 
+    private FPController movement;
+
 
     private void Start()
     {
+        movement = FindFirstObjectByType<FPController>();
+        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
         repairPercentage.gameObject.SetActive(false);
@@ -91,5 +97,21 @@ public class GeneratorFive : MonoBehaviour
         repairedFIve.SetActive(true);
         yield return new WaitForSeconds(textDuration);
         repairedFIve.SetActive(false);
+    }
+
+    void CloseCodeUI()
+    {
+        CloseUI(repairAndGenerator);
+    }
+
+    void CloseUI(GameObject UI)
+    {
+        UI.SetActive(false);
+        if (movement != null)
+        {
+            movement.canMove = true;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

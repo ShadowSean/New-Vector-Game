@@ -8,18 +8,24 @@ public class GeneratorSix : MonoBehaviour
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
     public GameObject repairedSix;
+    public Button closeGeneratorUI;
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
     public float repairSpeed = 0.5f;
     public float textDuration = 5f;
+    
 
     bool inRange;
     public static bool isSixthFixed;
+    private FPController movement;
 
 
     private void Start()
     {
+        movement = FindFirstObjectByType<FPController>();
+        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
         repairPercentage.gameObject.SetActive(false);
@@ -39,6 +45,7 @@ public class GeneratorSix : MonoBehaviour
                     {
                         repairPercentage.value = repairPercentage.maxValue;
                         isSixthFixed = true;
+                        
 
                         StartCoroutine(GeneratorRepairedSix());
 
@@ -92,4 +99,21 @@ public class GeneratorSix : MonoBehaviour
         yield return new WaitForSeconds(textDuration);
         repairedSix.SetActive(false);
     }
+
+    void CloseCodeUI()
+    {
+        CloseUI(repairAndGenerator);
+    }
+
+    void CloseUI(GameObject UI)
+    {
+        UI.SetActive(false);
+        if (movement != null)
+        {
+            movement.canMove = true;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
 }
