@@ -3620,7 +3620,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158241576}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3629,11 +3629,11 @@ RectTransform:
   - {fileID: 780156983}
   - {fileID: 421270776}
   m_Father: {fileID: 935086284}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -197, y: -106.4}
-  m_SizeDelta: {x: 410.5, y: 50}
+  m_AnchoredPosition: {x: 941.9, y: 342.6}
+  m_SizeDelta: {x: 410.5, y: 101.91}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &158241578
 MonoBehaviour:
@@ -35021,6 +35021,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemSwitcher
   flashlight_player: {fileID: 1791551674}
   taserRod_player: {fileID: 103381380}
+  flashlightBar: {fileID: 158241576}
   flashlightIcon: {fileID: 1542540592}
   taserIcon: {fileID: 486216854}
 --- !u!82 &1535160985
@@ -44871,6 +44872,7 @@ GameObject:
   - component: {fileID: 1938911974}
   - component: {fileID: 1938911976}
   - component: {fileID: 1938911975}
+  - component: {fileID: 1938911977}
   m_Layer: 11
   m_Name: Spot Light
   m_TagString: Untagged
@@ -44987,6 +44989,24 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1938911977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938911973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 127f11fa57804b147908d6f2589050bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightBehaviour
+  drainOvertime: 1
+  maxBrightness: 100
+  minBrightness: 0.1
+  drainRate: 100
+  battery: {fileID: 9157773008871135057}
+  batteryBar: {fileID: 158241578}
 --- !u!1 &1945335479
 GameObject:
   m_ObjectHideFlags: 0
@@ -49525,13 +49545,35 @@ GameObject:
   - component: {fileID: 8828980057745979489}
   - component: {fileID: 6287308758606573105}
   - component: {fileID: 7563790492431257209}
+  - component: {fileID: 9157773008871135058}
   m_Layer: 0
   m_Name: FlashlightBattery
-  m_TagString: Untagged
+  m_TagString: Battery
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &9157773008871135058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9157773008871135057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.45, y: 0.051499676, z: 0.66}
+  m_Center: {x: 0.000000002712139, y: -0.00000019267655, z: -0.15350428}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
