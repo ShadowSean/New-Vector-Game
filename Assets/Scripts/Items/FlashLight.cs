@@ -7,6 +7,8 @@ public class FlashLight : MonoBehaviour
 
     private ItemSwitcher itemSwitcher;
 
+   
+
     bool flashlightOn;
 
     private void Start()
@@ -27,6 +29,7 @@ public class FlashLight : MonoBehaviour
         {
             inticon.SetActive(true);
             playerCursor.SetActive(false);
+            
             if (Input.GetKeyDown(KeyCode.E))
             {
                 flashlight_ground.SetActive(false);
@@ -46,6 +49,7 @@ public class FlashLight : MonoBehaviour
         {
             inticon.SetActive(false);
             playerCursor.SetActive(true);
+            
         }
     }
 }

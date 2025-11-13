@@ -6,6 +6,8 @@ public class LightBehaviour : MonoBehaviour
 {
     Light newFlashlight;
 
+    public GameObject batteryUI;
+
     public bool drainOvertime;
     public float maxBrightness;
     public float minBrightness;
@@ -41,6 +43,8 @@ public class LightBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            batteryUI.SetActive(false);
+            battery.SetActive(false);
             ReplaceBattery(1f);
         }
     }

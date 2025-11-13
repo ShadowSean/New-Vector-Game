@@ -12,11 +12,17 @@ public class GeneratorLogic : MonoBehaviour
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
-    public float repairSpeed = 0.5f;
+    public float repairSpeed = 1f/ 10f;
     public float textDuration = 5f;
+
+    [Header("Gen Sounds")]
+    public AudioClip genFixing;
+    public AudioClip genFixed;
+    public AudioSource genFixingSource;
 
     bool inRange;
     public static bool isFixed;
+    private bool isPlayingFixingSound;
 
     private FPController movement;
     
@@ -29,6 +35,11 @@ public class GeneratorLogic : MonoBehaviour
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
         repairPercentage.gameObject.SetActive(false);
+
+        if(genFixingSource != null)
+        {
+            genFixingSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void Update()
@@ -47,11 +58,38 @@ public class GeneratorLogic : MonoBehaviour
 
                     GetComponent<Collider>().enabled = false;
 
+                    if(!isPlayingFixingSound && genFixing != null)
+                    {
+                        genFixingSource.clip = genFixing;
+                        genFixingSource.loop = true;
+                        genFixingSource.Play();
+                        isPlayingFixingSound = true;
+                    }
+
                     if (repairPercentage.value >= repairPercentage.maxValue)
                     {
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isFixed = true;
+
+                        if(genFixingSource.isPlaying)
+                        {
+                            genFixingSource.Stop();
+                        }
+
+                        if(genFixed != null)
+                        {
+                            genFixingSource.clip = genFixed;
+                            genFixingSource.loop = true;
+                            genFixingSource.spatialBlend = 1f;
+                            genFixingSource.rolloffMode = AudioRolloffMode.Logarithmic;
+                            genFixingSource.minDistance = 3f;
+                            genFixingSource.maxDistance = 25f;
+                            genFixingSource.dopplerLevel = 0f;
+                            genFixingSource.Play();
+                        }
+
+                        isPlayingFixingSound = false;
 
                         Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
@@ -60,6 +98,15 @@ public class GeneratorLogic : MonoBehaviour
 
                         StartCoroutine(GeneratorRepairedOne());
                         
+                    }
+                }
+
+                else
+                {
+                    if(isPlayingFixingSound)
+                    {
+                        genFixingSource.Stop();
+                        isPlayingFixingSound = false;
                     }
                 }
             }
@@ -71,6 +118,15 @@ public class GeneratorLogic : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if(isPlayingFixingSound)
+            {
+                genFixingSource.Stop();
+                isPlayingFixingSound= false;
+            }
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -97,6 +153,12 @@ public class GeneratorLogic : MonoBehaviour
             repairAndGenerator.SetActive(false);
             repairPercentage.gameObject.SetActive(false);
             partsNeeded.SetActive(false);
+
+            if (isPlayingFixingSound)
+            {
+                genFixingSource.Stop();
+                isPlayingFixingSound= false;
+            }
         }
     }
 

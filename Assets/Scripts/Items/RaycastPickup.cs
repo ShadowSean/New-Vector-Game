@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -10,13 +11,23 @@ public class RaycastPickup : MonoBehaviour
     public Camera playerCamera;
     public GameObject scope;
     public ItemSwitcher itemSwitcher;
+    public GameObject minimap;
+    public GameObject minimapText;
+
+    private FPController playerMovement;
+    private Animator anim;
+    
 
     pickupItem currentPickup;
     Door currentDoor;
     KeyCard currentKeyCard;
-    
-    
-    
+
+    private void Start()
+    {
+        playerMovement = GetComponent<FPController>();
+        anim = GetComponentInChildren<Animator>();
+    }
+
 
     private void Update()
     {
@@ -101,8 +112,30 @@ public class RaycastPickup : MonoBehaviour
                 case ItemType.Taser:
                     itemSwitcher.PickupTaser();
                     break;
+                case ItemType.Map:
+                    if (minimap != null)
+                    {
+                        StartCoroutine(MapTutorial());
+                    }
+                    break;
             }
         }
+        if (currentPickup.interactUI != null)
+        {
+            currentPickup.interactUI.SetActive(false);
+        }
         currentPickup.gameObject.SetActive(false);
+    }
+
+    IEnumerator MapTutorial()
+    {
+        playerMovement.canMove = false;
+        anim.enabled = false;
+        minimap.SetActive(true);
+        minimapText.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        minimapText.SetActive(false);
+        playerMovement.canMove = true;
+        anim.enabled = true;
     }
 }
