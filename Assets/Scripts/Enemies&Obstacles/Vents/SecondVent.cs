@@ -1,97 +1,90 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class SecondVent : MonoBehaviour
 {
-    public GameObject ventUI, scope, ventAreaone, ventAreaTwo, player;
-    private FPController moveMent;
+    [Header("Player movement")]
+    public GameObject player;
+    private FPController movement;
 
-    public Button firstUI, secondUI;
+    [Header("Teleporter Area")]
+    public Transform ventAreaTwo;
+
+    [Header("Fade ")]
+    public CanvasGroup fadePanel;
+    public float fadeDuration = 1f;
+
+    bool isTeleporting;
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isTeleporting)
+        {
+            return;
+        }
+
         if (other.CompareTag("Player"))
         {
-            moveMent = other.GetComponent<FPController>();
-            if (moveMent != null)
-            {
-                moveMent.lookXLimit = 0;
-                moveMent.LookSpeed = 0;
-            }
-            scope.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            ventUI.SetActive(true);
+            movement = other.GetComponent<FPController>();
 
-            Button firstButton = firstUI.GetComponent<Button>();
-            Button secondButton = secondUI.GetComponent<Button>();
-
-            if (firstButton != null)
+            if (movement != null)
             {
-                firstButton.onClick.AddListener(() => GotoVentArea(ventAreaone.transform.position));
+                movement.enabled = false;
             }
-            if (secondButton != null)
-            {
-                secondButton.onClick.AddListener(() => GotoVentArea(ventAreaTwo.transform.position));
-            }
+            StartCoroutine(FadeTeleportTwo());
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    IEnumerator FadeTeleportTwo()
     {
-        if (other.CompareTag("Player"))
+        isTeleporting = true;
+        yield return StartCoroutine(Fade(0, 1));
+
+        TeleportPlayer();
+
+        yield return new WaitForSeconds(0.1f);
+
+        yield return StartCoroutine(Fade(1, 0));
+
+
+        if (movement != null)
         {
-            if (moveMent != null)
-            {
-                moveMent.lookXLimit = 45;
-                moveMent.LookSpeed = 5;
-            }
-            scope.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            ventUI.SetActive(false);
+            movement.enabled = true;
+        }
+
+        isTeleporting = false;
+    }
+
+    void TeleportPlayer()
+    {
+        if (player == null || ventAreaTwo == null)
+        {
+            return;
+        }
+
+        CharacterController controller = player.GetComponent<CharacterController>();
+        if (controller != null)
+        {
+            controller.enabled = false;
+        }
+
+        player.transform.SetPositionAndRotation(ventAreaTwo.position, ventAreaTwo.rotation);
+
+        if (controller != null)
+        {
+            controller.enabled = true;
         }
     }
 
-    void GotoVentArea(Vector3 targetPosition)
+    IEnumerator Fade(float start, float end)
     {
-        Debug.Log("Button clicked! Teleporting player...");
-        if (player != null)
+        float t = 0;
+        while (t < fadeDuration)
         {
-            CharacterController cc = player.GetComponent<CharacterController>();
-            if (cc != null)
-            {
-                cc.enabled = false;
-
-                RaycastHit hit;
-                Vector3 adjustedPosition = targetPosition;
-                if (Physics.Raycast(targetPosition + Vector3.up * 2, Vector3.down, out hit, 10f))
-                {
-                    adjustedPosition = hit.point + Vector3.up * (cc.height / 2f);
-                }
-                player.transform.position = adjustedPosition;
-                cc.enabled = true;
-            }
-            else
-            {
-                player.transform.position = targetPosition;
-            }
-
-            ventUI.SetActive(false);
-            scope.SetActive(true);
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            if (moveMent != null)
-            {
-                moveMent.lookXLimit = 45;
-                moveMent.LookSpeed = 5;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Player is null! No teleport performed.");
+            t += Time.deltaTime;
+            fadePanel.alpha = Mathf.Lerp(start, end, t / fadeDuration);
+            yield return null;
         }
     }
 
