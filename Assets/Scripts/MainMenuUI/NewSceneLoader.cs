@@ -56,7 +56,7 @@ public class NewSceneLoader : MonoBehaviour
         finalLoadingScreen.SetActive(true);
         yield return StartCoroutine(Fade(1, 0));
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         yield return StartCoroutine(Fade(0, 1));
 
         SceneManager.LoadScene(mainGameSceneName);

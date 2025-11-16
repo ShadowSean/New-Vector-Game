@@ -4,7 +4,7 @@ using UnityEngine;
 public class LoadingMenuLogic : MonoBehaviour
 {
     [Header("Screens")]
-    public GameObject loadingScreen, clickScreen;
+    public GameObject loadingScreen, clickScreen,headphonesScreen;
 
     [Header("Screen Duration")]
     public float displayDuration = 3f;
@@ -17,6 +17,18 @@ public class LoadingMenuLogic : MonoBehaviour
 
    IEnumerator SwitchScreens()
     {
+        yield return new WaitForSeconds(displayDuration);
+
+        if(headphonesScreen != null)
+        {
+            headphonesScreen.SetActive(false);
+        }
+
+        if(loadingScreen != null)
+        {
+            loadingScreen.SetActive(true);
+        }
+
         yield return new WaitForSeconds(displayDuration);
 
         if (loadingScreen != null)

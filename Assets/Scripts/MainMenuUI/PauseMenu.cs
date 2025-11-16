@@ -8,6 +8,8 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
+    public GameObject controlsMenu;
+
     public string MainMenu;
 
     public GameObject playerCursor;
@@ -48,6 +50,11 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameisPaused = false;
+    }
+
+    public void ControlsMenu()
+    {
+        controlsMenu.SetActive(true);
     }
 
    public void Pause()
