@@ -10,6 +10,10 @@ public class CameraShake : MonoBehaviour
 
     [SerializeField] private float shakeDuration = 3f;
 
+    public GameObject skipTutorialUI;
+    private bool skipped = false;
+    private Coroutine tutorialRoutine;
+
     public GameObject typingText;
     public GameObject sprintUI;
     public GameObject sprintText;
@@ -36,13 +40,17 @@ public class CameraShake : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
 
         
-        StartCoroutine(Tutorial());
+        tutorialRoutine = StartCoroutine(Tutorial());
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SkipTutorial();
+        }
         if (isShaking)
         {
             transform.localPosition = initalPos + Random.insideUnitSphere * shakeAmount;
@@ -53,8 +61,34 @@ public class CameraShake : MonoBehaviour
         }
     }
 
+    void SkipTutorial()
+    {
+        skipped = true;
+
+        if (tutorialRoutine != null)
+        {
+            StopCoroutine(tutorialRoutine);
+        }
+
+        isShaking = false;
+        transform.localPosition = initalPos;
+
+        playerMovement.canMove = true;
+        anim.enabled = true;
+
+        typingText.SetActive(false);
+        sprintUI.SetActive(true);
+        sprintText.SetActive(false);
+        inventoryUI.SetActive(true);
+        inventoryText.SetActive(false);
+
+        skipTutorialUI.SetActive(false);
+    }
+
     IEnumerator Tutorial()
     {
+        skipTutorialUI.SetActive(true);
+
         isShaking = true;
         playerMovement.canMove = false;
         anim.enabled = false;
@@ -87,7 +121,7 @@ public class CameraShake : MonoBehaviour
 
         playerMovement.canMove = true;
         anim.enabled = true;
-
+        skipTutorialUI.SetActive(false);
 
     }
 
