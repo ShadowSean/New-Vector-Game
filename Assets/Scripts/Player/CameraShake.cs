@@ -21,6 +21,7 @@ public class CameraShake : MonoBehaviour
     public GameObject sprintText;
     public GameObject inventoryUI;
     public GameObject inventoryText;
+    public GameObject collectionText;
 
     private Animator anim;
 
@@ -114,6 +115,10 @@ public class CameraShake : MonoBehaviour
         typingText.SetActive(true);
         yield return new WaitForSeconds(5f);
         typingText.SetActive(false);
+
+        collectionText.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        collectionText.SetActive(false);
 
         playerMovement.canMove = false;
         anim.enabled = false;

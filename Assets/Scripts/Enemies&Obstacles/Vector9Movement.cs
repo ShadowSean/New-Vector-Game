@@ -82,8 +82,11 @@ public class Vector9Movement : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            animator.speed = 5f;
             agent.speed = vectorChaseSpeed;
+            agent.angularSpeed = 900f;
+            agent.acceleration = 50f;
+            animator.speed = 5f;
+
             agent.destination = playerPosition.position;
         }
     }
@@ -92,9 +95,11 @@ public class Vector9Movement : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            isPlayerInRange = false;
             animator.speed = 1f;
-            isPlayerInRange = true;
             agent.speed = vectorPatrolSpeed;
+            agent.angularSpeed = 120f;
+            agent.acceleration = 15f;
 
             if(patrolAreas.Length > 0)
             {

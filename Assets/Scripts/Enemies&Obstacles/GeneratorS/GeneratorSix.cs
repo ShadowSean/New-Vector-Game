@@ -12,7 +12,7 @@ public class GeneratorSix : MonoBehaviour
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
-    public GameObject finalDoor;
+    
     public float repairSpeed = 0.5f;
     public float textDuration = 5f;
 
@@ -73,7 +73,7 @@ public class GeneratorSix : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isSixthFixed = true;
-                        finalDoor.SetActive(false);
+                        
 
                         if (genFixingSource.isPlaying)
                         {
