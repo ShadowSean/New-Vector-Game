@@ -10,6 +10,8 @@ public class CameraShake : MonoBehaviour
 
     [SerializeField] private float shakeDuration = 3f;
 
+    private const string TutorialKey = "TutorialCompleted";
+
     public GameObject skipTutorialUI;
     private bool skipped = false;
     private Coroutine tutorialRoutine;
@@ -36,9 +38,16 @@ public class CameraShake : MonoBehaviour
 
     private void Start()
     {
+        
         playerMovement = FindFirstObjectByType<FPController>();
         anim = gameObject.GetComponent<Animator>();
 
+        if (PlayerPrefs.GetInt(TutorialKey, 0) == 1)
+        {
+            SkipTutorial();
+            return;
+        }
+        
         
         tutorialRoutine = StartCoroutine(Tutorial());
         
@@ -63,6 +72,9 @@ public class CameraShake : MonoBehaviour
 
     void SkipTutorial()
     {
+        PlayerPrefs.SetInt(TutorialKey, 1);
+        PlayerPrefs.Save();
+        
         skipped = true;
 
         if (tutorialRoutine != null)
@@ -122,6 +134,7 @@ public class CameraShake : MonoBehaviour
         playerMovement.canMove = true;
         anim.enabled = true;
         skipTutorialUI.SetActive(false);
+       
 
     }
 

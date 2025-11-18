@@ -14,6 +14,9 @@ public class NewSceneLoader : MonoBehaviour
     public GameObject[] tipTexts;
     public float tipDuration = 3f;
 
+    [Header("Image Cycle")]
+    public GameObject[] loadingImages;
+
     [Header("Fade")]
     public CanvasGroup fadePanel;
     public float fadeSpeed = 1.0f;
@@ -23,6 +26,8 @@ public class NewSceneLoader : MonoBehaviour
 
     public void StartNewGame()
     {
+        PlayerPrefs.DeleteKey("TutorialCompleted");
+        PlayerPrefs.Save();
         StartCoroutine(LoadGameSequence());
     }
 
@@ -42,12 +47,26 @@ public class NewSceneLoader : MonoBehaviour
                 tipTexts[i - 1].SetActive(false);
             }
 
+            if (loadingImages.Length > i)
+            {
+                loadingImages[i].SetActive(true);
+            }
+
+            if (i > 0 && loadingImages.Length > i - 1)
+            {
+                loadingImages[i - 1].SetActive(false);
+            }
             yield return new WaitForSeconds(tipDuration);
         }
 
         if (tipTexts.Length > 0)
         {
             tipTexts[tipTexts.Length -1].SetActive(false);
+        }
+
+        if (loadingImages.Length > 0)
+        {
+            loadingImages[loadingImages.Length - 1].SetActive(false);
         }
 
         yield return StartCoroutine(Fade(0, 1));
