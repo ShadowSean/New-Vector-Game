@@ -13,6 +13,7 @@ public class RaycastPickup : MonoBehaviour
     public ItemSwitcher itemSwitcher;
     public GameObject minimap;
     public GameObject minimapText;
+    public GameObject intIcon;
 
     private FPController playerMovement;
     private Animator anim;
@@ -40,6 +41,7 @@ public class RaycastPickup : MonoBehaviour
         {
 
             hitSomething = true;
+            intIcon.SetActive(true);
             currentPickup = hit.collider.GetComponent<pickupItem>();
             currentDoor = hit.collider.GetComponentInParent<Door>();
             currentKeyCard = hit.collider.GetComponent<KeyCard>();
@@ -77,6 +79,7 @@ public class RaycastPickup : MonoBehaviour
         }
         if (!hitSomething)
         {
+            intIcon.SetActive(false);
             if (currentDoor != null)
             {
                 currentDoor.ShowInteractPromt(false);
@@ -120,10 +123,7 @@ public class RaycastPickup : MonoBehaviour
                     break;
             }
         }
-        if (currentPickup.interactUI != null)
-        {
-            currentPickup.interactUI.SetActive(false);
-        }
+        
         currentPickup.gameObject.SetActive(false);
     }
 

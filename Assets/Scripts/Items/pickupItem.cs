@@ -8,27 +8,18 @@ public class pickupItem : MonoBehaviour
 
     public ItemType itemType;
 
-    public GameObject interactUI;
+   
 
     bool playerInRange;
 
-    private void Start()
-    {
-        if (interactUI != null)
-        {
-            interactUI.SetActive(false);
-        }
-    }
+    
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            if (interactUI != null)
-            {
-                interactUI.SetActive(true);
-            }
+            
         }
     }
 
@@ -37,10 +28,7 @@ public class pickupItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            if (interactUI != null)
-            {
-                interactUI.SetActive(false);
-            }
+            
         }
     }
 

@@ -12,6 +12,7 @@ public class LightBehaviour : MonoBehaviour
     public float maxBrightness;
     public float minBrightness;
     public float drainRate;
+    public GameObject batteryInt;
 
     public GameObject battery;
     public Slider batteryBar;
@@ -43,7 +44,7 @@ public class LightBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            batteryUI.SetActive(false);
+            batteryInt.SetActive(false);
             battery.SetActive(false);
             ReplaceBattery(1f);
         }

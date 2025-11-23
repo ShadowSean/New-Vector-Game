@@ -26,8 +26,7 @@ public class NewSceneLoader : MonoBehaviour
 
     public void StartNewGame()
     {
-        PlayerPrefs.DeleteKey("TutorialCompleted");
-        PlayerPrefs.Save();
+        
         StartCoroutine(LoadGameSequence());
     }
 
