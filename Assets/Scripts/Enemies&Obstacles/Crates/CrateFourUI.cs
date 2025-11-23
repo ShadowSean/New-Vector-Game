@@ -8,6 +8,7 @@ public class CrateFourUI : MonoBehaviour
 
     bool inRange;
     bool itemEquipped;
+    public GameObject crateFour;
 
     private FPController cameraMovement;
 
@@ -37,10 +38,20 @@ public class CrateFourUI : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !itemEquipped)
             {
+                if (cameraMovement != null)
+                {
+                    cameraMovement.lookXLimit = 40;
+                    cameraMovement.LookSpeed = 5;
+                }
+                playerCursor.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 equipIcon.SetActive(false);
                 equippedIcon.SetActive(true);
                 itemEquipped = true;
                 partsCollectedFour = true;
+                SparePartsCounter.Instance.AddPart();
+                crateFour.SetActive(false);
             }
         }
     }

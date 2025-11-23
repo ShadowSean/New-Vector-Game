@@ -73,6 +73,9 @@ public class GeneratorThree : MonoBehaviour
                         repairPercentage.value = repairPercentage.maxValue;
                         isThirdFixed = true;
 
+                        GeneratorCounter.Instance.AddGenerator();
+
+
                         if (genFixingSource.isPlaying)
                         {
                             genFixingSource.Stop();

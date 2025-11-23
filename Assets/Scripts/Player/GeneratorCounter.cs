@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-public class SparePartsCounter : MonoBehaviour
+public class GeneratorCounter : MonoBehaviour
 {
-    public static SparePartsCounter Instance;
+    public static GeneratorCounter Instance;
 
     public TextMeshProUGUI counterText;
-    public int totalParts = 6;
+    public int totalGens = 6;
     private int partCount = 0;
     public TextMeshProUGUI[] greenTexts;
 
@@ -15,12 +15,12 @@ public class SparePartsCounter : MonoBehaviour
         Instance = this;
     }
 
-    public void AddPart()
+    public void AddGenerator()
     {
         partCount++;
         counterText.text = partCount.ToString();
 
-        if (partCount >= totalParts)
+        if (partCount >= totalGens)
         {
             TurnTextsGreen();
         }

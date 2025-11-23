@@ -72,7 +72,10 @@ public class GeneratorLogic : MonoBehaviour
                         repairPercentage.value = repairPercentage.maxValue;
                         isFixed = true;
 
-                        if(genFixingSource.isPlaying)
+                        GeneratorCounter.Instance.AddGenerator();
+
+
+                        if (genFixingSource.isPlaying)
                         {
                             genFixingSource.Stop();
                         }

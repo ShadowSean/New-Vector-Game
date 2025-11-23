@@ -8,6 +8,7 @@ public class CrateFiveUI : MonoBehaviour
 
     bool inRange;
     bool itemEquipped;
+    public GameObject crateFive;
 
     private FPController cameraMovement;
 
@@ -37,10 +38,20 @@ public class CrateFiveUI : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !itemEquipped)
             {
+                if (cameraMovement != null)
+                {
+                    cameraMovement.lookXLimit = 40;
+                    cameraMovement.LookSpeed = 5;
+                }
+                playerCursor.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 equipIcon.SetActive(false);
                 equippedIcon.SetActive(true);
                 itemEquipped = true;
                 partsCollectedFive = true;
+                SparePartsCounter.Instance.AddPart();
+                crateFive.SetActive(false);
             }
         }
     }

@@ -74,6 +74,9 @@ public class GeneratorFour : MonoBehaviour
                         repairPercentage.value = repairPercentage.maxValue;
                         isFourthFixed = true;
 
+                        GeneratorCounter.Instance.AddGenerator();
+
+
                         if (genFixingSource.isPlaying)
                         {
                             genFixingSource.Stop();

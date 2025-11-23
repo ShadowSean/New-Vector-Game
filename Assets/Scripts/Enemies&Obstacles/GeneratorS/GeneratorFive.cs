@@ -73,6 +73,9 @@ public class GeneratorFive : MonoBehaviour
                         repairPercentage.value = repairPercentage.maxValue;
                         isFifthFixed = true;
 
+                        GeneratorCounter.Instance.AddGenerator();
+
+
                         if (genFixingSource.isPlaying)
                         {
                             genFixingSource.Stop();

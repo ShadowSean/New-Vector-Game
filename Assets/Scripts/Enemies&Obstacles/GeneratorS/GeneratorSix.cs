@@ -73,7 +73,10 @@ public class GeneratorSix : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isSixthFixed = true;
-                        
+
+                        GeneratorCounter.Instance.AddGenerator();
+
+
 
                         if (genFixingSource.isPlaying)
                         {

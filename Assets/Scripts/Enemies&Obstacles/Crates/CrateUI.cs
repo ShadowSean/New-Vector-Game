@@ -6,6 +6,7 @@ public class CrateUI : MonoBehaviour
     public GameObject crateui, equipIcon,playerCursor,equippedIcon;
 
     public static bool partsCollected;
+    public GameObject crate;
 
     bool inRange;
     bool itemEquipped;
@@ -38,10 +39,22 @@ public class CrateUI : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !itemEquipped)
             {
+                if(cameraMovement != null)
+                {
+                    cameraMovement.lookXLimit = 40;
+                    cameraMovement.LookSpeed = 5;
+                }
+                playerCursor.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                crateui.SetActive(false);
                 equipIcon.SetActive(false);
                 equippedIcon.SetActive(true);
                 itemEquipped = true;
                 partsCollected = true;
+                SparePartsCounter.Instance.AddPart();
+
+                crate.SetActive(false);
             }
         }
     }
@@ -55,6 +68,7 @@ public class CrateUI : MonoBehaviour
                 cameraMovement.lookXLimit = 45;
                 cameraMovement.LookSpeed = 5;
             }
+            
             inRange = false;
             crateui.SetActive(false );
             equipIcon.SetActive(false);

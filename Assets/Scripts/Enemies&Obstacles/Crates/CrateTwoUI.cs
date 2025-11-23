@@ -8,6 +8,7 @@ public class CrateTwoUI : MonoBehaviour
 
     bool inRange;
     bool itemEquipped;
+    public GameObject crateTwo;
 
     private FPController cameraMovement;
 
@@ -37,10 +38,20 @@ public class CrateTwoUI : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !itemEquipped)
             {
+                if (cameraMovement != null)
+                {
+                    cameraMovement.lookXLimit = 40;
+                    cameraMovement.LookSpeed = 5;
+                }
+                playerCursor.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 equipIcon.SetActive(false);
                 equippedIcon.SetActive(true);
                 itemEquipped = true;
                 partsCollectedTwo = true;
+                SparePartsCounter.Instance.AddPart();
+                crateTwo.SetActive(false);
             }
         }
     }
