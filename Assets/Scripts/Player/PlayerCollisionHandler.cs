@@ -61,7 +61,7 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private IEnumerator GameOverSequence()
     {
-        // Disable HUD/UI
+        yield return new WaitForSeconds(2.5f);
        
 
         float t = 0f;
@@ -73,7 +73,7 @@ public class PlayerCollisionHandler : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

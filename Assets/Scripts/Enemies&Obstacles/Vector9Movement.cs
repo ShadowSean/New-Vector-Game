@@ -200,7 +200,7 @@ public class Vector9Movement : MonoBehaviour
             yield return null;
         }
         print("bye");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         print("Hi");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
