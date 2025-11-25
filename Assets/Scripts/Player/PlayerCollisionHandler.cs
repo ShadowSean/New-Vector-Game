@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.AI;
 
 public class PlayerCollisionHandler : MonoBehaviour
 {
@@ -12,17 +13,28 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     public GameObject inventory;
     public GameObject staminaAndItem;
+    public GameObject cameraObj;
     public GameObject scope;
+
+
+    public GameObject Vector9;
 
     private bool gameOverTriggered = false;
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    private void Start()
+    {
+        cameraObj.SetActive(false);
+ 
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         // This runs whenever the CharacterController bumps into something solid
         if (gameOverTriggered) return;
 
-        if (hit.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
+           
             gameOverTriggered = true;
 
             // Stop player movement if you have movement logic here
@@ -30,19 +42,27 @@ public class PlayerCollisionHandler : MonoBehaviour
 
             // Play jumpscare sound
             if (jumpscareSource && jumpscareClip)
+            {
                 jumpscareSource.PlayOneShot(jumpscareClip);
+                cameraObj.SetActive(true);
+                Vector9.GetComponent<Animator>().SetTrigger("Scare");
+      
+            }
+            Vector9.GetComponent<NavMeshAgent>().isStopped = true;
 
-            // Start fade coroutine
-            StartCoroutine(GameOverSequence());
+
+
+
+            if (inventory) inventory.SetActive(false);
+            if (staminaAndItem) staminaAndItem.SetActive(false);
+            if (scope) scope.SetActive(false);
         }
     }
 
     private IEnumerator GameOverSequence()
     {
         // Disable HUD/UI
-        if (inventory) inventory.SetActive(false);
-        if (staminaAndItem) staminaAndItem.SetActive(false);
-        if (scope) scope.SetActive(false);
+       
 
         float t = 0f;
         while (t < fadeDuration)

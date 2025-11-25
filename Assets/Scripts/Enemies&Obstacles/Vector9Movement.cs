@@ -7,6 +7,10 @@ public class Vector9Movement : MonoBehaviour
 {
     [SerializeField] private Transform playerPosition;
     [SerializeField] private Transform[] patrolAreas;
+    public float chaseDistance;
+    public CanvasGroup gameOverCanvas;    
+    public float fadeDuration = 2f;
+    
 
     public Animator animator;
     //[SerializeField] private CanvasGroup gameOverCanvas;
@@ -52,62 +56,54 @@ public class Vector9Movement : MonoBehaviour
         {
             agent.speed = vectorPatrolSpeed;
             agent.destination = patrolAreas[currentPatrolIndex].position;
+
         }
         
     }
 
     private void Update()
     {
-        //if (gameOverTriggered) return;
-        if (!isPlayerInRange)
-        {
-            Patrol();
-        }
-        //else
-        //{
-        //    ChasePlayer();
-        //}
-
-        //float distance = Vector3.Distance(transform.position,playerPosition.position);
-
-        //if (distance <= attackRange)
-        //{
-        //    if (triggerCollider) triggerCollider.enabled = false;
-        //    if (solidCollider) solidCollider.enabled = true;
-        //}
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        float dist = Vector3.Distance(transform.position, playerPosition.position);
+        if (dist <= chaseDistance)
         {
             isPlayerInRange = true;
             agent.speed = vectorChaseSpeed;
-            agent.angularSpeed = 900f;
-            agent.acceleration = 50f;
+            agent.angularSpeed = 800f;
+            agent.acceleration = 20f;
             animator.speed = 5f;
 
             agent.destination = playerPosition.position;
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        else 
         {
-            isPlayerInRange = false;
+            
             animator.speed = 1f;
             agent.speed = vectorPatrolSpeed;
             agent.angularSpeed = 120f;
             agent.acceleration = 15f;
 
-            if(patrolAreas.Length > 0)
+            if (patrolAreas.Length > 0)
             {
                 agent.destination = patrolAreas[currentPatrolIndex].position;
             }
-           
+            Patrol();
         }
+       
+        //else
+        //{
+        //    ChasePlayer();
+        //}
+
+            //float distance = Vector3.Distance(transform.position,playerPosition.position);
+
+            //if (distance <= attackRange)
+            //{
+            //    if (triggerCollider) triggerCollider.enabled = false;
+            //    if (solidCollider) solidCollider.enabled = true;
+            //}
     }
+
+
 
     //private void OnTriggerEnter(Collider other)
     //{
@@ -189,4 +185,28 @@ public class Vector9Movement : MonoBehaviour
     //        agent.destination = playerPosition.position;
     //    }
     //}
+
+
+
+    private IEnumerator GameOverSequence()
+    {
+
+        float t = 0f;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            if (gameOverCanvas)
+                gameOverCanvas.alpha = Mathf.Lerp(0, 1, t / fadeDuration);
+            yield return null;
+        }
+        print("bye");
+        yield return new WaitForSeconds(2f);
+        print("Hi");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void StartFade()
+    {
+        StartCoroutine(GameOverSequence());
+    }
 }
