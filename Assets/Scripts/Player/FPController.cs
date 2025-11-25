@@ -15,6 +15,9 @@ public class FPController : MonoBehaviour
     public float LookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
 
+   
+
+
     CharacterController controller;
     Vector3 moveDir = Vector3.zero;
     float rotationX = 0;
@@ -30,6 +33,7 @@ public class FPController : MonoBehaviour
 
     private void Start()
     {
+
         controller = GetComponent<CharacterController>();
         stamina = FindFirstObjectByType<Stamina>();
 
@@ -68,7 +72,6 @@ public class FPController : MonoBehaviour
 
 
         
-
 
     }
 

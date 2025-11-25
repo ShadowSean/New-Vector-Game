@@ -17,7 +17,17 @@ public class RaycastPickup : MonoBehaviour
 
     private FPController playerMovement;
     private Animator anim;
+
     
+    public AudioSource audioSource;
+    public AudioClip pickupSound;
+
+    private bool hasMinimap = false;
+    private bool minimapOpen = false;
+    public KeyCode minimapKey = KeyCode.M;
+
+
+
 
     pickupItem currentPickup;
     Door currentDoor;
@@ -25,6 +35,11 @@ public class RaycastPickup : MonoBehaviour
 
     private void Start()
     {
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
         playerMovement = GetComponent<FPController>();
         anim = GetComponentInChildren<Animator>();
     }
@@ -96,11 +111,31 @@ public class RaycastPickup : MonoBehaviour
                 currentPickup = null;
             }
         }
-     
+
+        
+        if (hasMinimap && Input.GetKeyDown(minimapKey))
+        {
+            minimapOpen = !minimapOpen;
+            
+            minimap.SetActive(minimapOpen);
+
+            if (scope != null)
+            {
+                scope.SetActive(!minimapOpen);
+            }
+        }
+
+
     }
 
     void PickUp(pickupItem currentPickup)
     {
+       
+        if (audioSource != null && pickupSound != null)
+        {
+            audioSource.PlayOneShot(pickupSound);
+        }
+
         if (currentPickup.playerItems != null)
         {
             currentPickup.playerItems.SetActive(true);
@@ -116,10 +151,8 @@ public class RaycastPickup : MonoBehaviour
                     itemSwitcher.PickupTaser();
                     break;
                 case ItemType.Map:
-                    if (minimap != null)
-                    {
-                        StartCoroutine(MapTutorial());
-                    }
+                    hasMinimap = true;
+                    StartCoroutine(MapTutorial());
                     break;
             }
         }

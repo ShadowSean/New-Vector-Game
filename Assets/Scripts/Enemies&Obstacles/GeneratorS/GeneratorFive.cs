@@ -8,8 +8,7 @@ public class GeneratorFive : MonoBehaviour
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
-    public GameObject repairedFIve;
-    public Button closeGeneratorUI;
+    
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -31,7 +30,7 @@ public class GeneratorFive : MonoBehaviour
     private void Start()
     {
         movement = FindFirstObjectByType<FPController>();
-        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+        
 
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
@@ -57,7 +56,7 @@ public class GeneratorFive : MonoBehaviour
                     }
                     repairPercentage.value += repairSpeed * Time.deltaTime;
 
-                    GetComponent<Collider>().enabled = false;
+                    
 
                     if (!isPlayingFixingSound && genFixing != null)
                     {
@@ -72,6 +71,16 @@ public class GeneratorFive : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isFifthFixed = true;
+
+                        repairAndGenerator.SetActive(false);
+                        if (movement != null)
+                        {
+                            movement.canMove = true;
+                        }
+
+                        playerCursor.SetActive(true);
+
+                        GetComponent<Collider>().enabled = false;
 
                         GeneratorCounter.Instance.AddGenerator();
 
@@ -95,13 +104,7 @@ public class GeneratorFive : MonoBehaviour
 
                         isPlayingFixingSound = false;
 
-                        Cursor.lockState = CursorLockMode.None;
-                        Cursor.visible = true;
-
-
-
-                        StartCoroutine(GeneratorRepairedFive());
-
+                        
                     }
                 }
 
@@ -174,26 +177,5 @@ public class GeneratorFive : MonoBehaviour
         partsNeeded.SetActive(false);
     }
 
-    IEnumerator GeneratorRepairedFive()
-    {
-        repairedFIve.SetActive(true);
-        yield return new WaitForSeconds(textDuration);
-        repairedFIve.SetActive(false);
-    }
-
-    void CloseCodeUI()
-    {
-        CloseUI(repairAndGenerator);
-    }
-
-    void CloseUI(GameObject UI)
-    {
-        UI.SetActive(false);
-        if (movement != null)
-        {
-            movement.canMove = true;
-        }
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+    
 }

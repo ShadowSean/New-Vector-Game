@@ -7,8 +7,7 @@ public class GeneratorFour : MonoBehaviour
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
-    public GameObject repairedFour;
-    public Button closeGeneratorUI;
+    
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -32,7 +31,7 @@ public class GeneratorFour : MonoBehaviour
     {
 
         movement = FindFirstObjectByType<FPController>();
-        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+        
 
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
@@ -58,7 +57,7 @@ public class GeneratorFour : MonoBehaviour
                     }
                     repairPercentage.value += repairSpeed * Time.deltaTime;
 
-                    GetComponent<Collider>().enabled = false;
+                    
 
                     if (!isPlayingFixingSound && genFixing != null)
                     {
@@ -73,6 +72,16 @@ public class GeneratorFour : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isFourthFixed = true;
+
+                        repairAndGenerator.SetActive(false);
+                        if (movement != null)
+                        {
+                            movement.canMove = true;
+                        }
+
+                        playerCursor.SetActive(true);
+
+                        GetComponent<Collider>().enabled = false;
 
                         GeneratorCounter.Instance.AddGenerator();
 
@@ -96,13 +105,7 @@ public class GeneratorFour : MonoBehaviour
 
                         isPlayingFixingSound = false;
 
-                        Cursor.lockState = CursorLockMode.None;
-                        Cursor.visible = true;
-
-
-
-                        StartCoroutine(GeneratorRepairedFour());
-
+                        
                     }
                 }
 
@@ -173,26 +176,5 @@ public class GeneratorFour : MonoBehaviour
         partsNeeded.SetActive(false);
     }
 
-    IEnumerator GeneratorRepairedFour()
-    {
-        repairedFour.SetActive(true);
-        yield return new WaitForSeconds(textDuration);
-        repairedFour.SetActive(false);
-    }
-
-    void CloseCodeUI()
-    {
-        CloseUI(repairAndGenerator);
-    }
-
-    void CloseUI(GameObject UI)
-    {
-        UI.SetActive(false);
-        if (movement != null)
-        {
-            movement.canMove = true;
-        }
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+    
 }

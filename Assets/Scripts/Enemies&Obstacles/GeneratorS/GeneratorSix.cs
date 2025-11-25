@@ -7,8 +7,7 @@ public class GeneratorSix : MonoBehaviour
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
-    public GameObject repairedSix;
-    public Button closeGeneratorUI;
+    
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
@@ -32,7 +31,7 @@ public class GeneratorSix : MonoBehaviour
     private void Start()
     {
         movement = FindFirstObjectByType<FPController>();
-        closeGeneratorUI.onClick.AddListener(CloseCodeUI);
+        
 
         repairAndGenerator.SetActive(false);
         partsNeeded.SetActive(false);
@@ -58,7 +57,7 @@ public class GeneratorSix : MonoBehaviour
                     }
                     repairPercentage.value += repairSpeed * Time.deltaTime;
 
-                    GetComponent<Collider>().enabled = false;
+                   
 
                     if (!isPlayingFixingSound && genFixing != null)
                     {
@@ -73,6 +72,16 @@ public class GeneratorSix : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isSixthFixed = true;
+
+                        repairAndGenerator.SetActive(false);
+                        if (movement != null)
+                        {
+                            movement.canMove = true;
+                        }
+
+                        playerCursor.SetActive(true);
+
+                        GetComponent<Collider>().enabled = false;
 
                         GeneratorCounter.Instance.AddGenerator();
 
@@ -97,12 +106,7 @@ public class GeneratorSix : MonoBehaviour
 
                         isPlayingFixingSound = false;
 
-                        Cursor.lockState = CursorLockMode.None;
-                        Cursor.visible = true;
-
-
-
-                        StartCoroutine(GeneratorRepairedSix());
+                        
 
                     }
                 }
@@ -173,27 +177,6 @@ public class GeneratorSix : MonoBehaviour
         partsNeeded.SetActive(false);
     }
 
-    IEnumerator GeneratorRepairedSix()
-    {
-        repairedSix.SetActive(true);
-        yield return new WaitForSeconds(textDuration);
-        repairedSix.SetActive(false);
-    }
-
-    void CloseCodeUI()
-    {
-        CloseUI(repairAndGenerator);
-    }
-
-    void CloseUI(GameObject UI)
-    {
-        UI.SetActive(false);
-        if (movement != null)
-        {
-            movement.canMove = true;
-        }
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+    
 
 }
