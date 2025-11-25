@@ -40164,9 +40164,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c969dc379f94b47aae22811a90ae8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FootstepController
-  footstepDistance: 1.5
-  footstepSource: {fileID: 2003891488}
-  footstepClip: {fileID: 8300000, guid: 26e6b41d8a6e29849806764fba3beea0, type: 3}
+  walkSpeedMin: 0.1
+  walkSpeedMax: 5.1
+  sprintSpeedMin: 5.2
+  footstepSource: {fileID: 1535160985}
+  walkClip: {fileID: 8300000, guid: 26e6b41d8a6e29849806764fba3beea0, type: 3}
+  sprintClip: {fileID: 8300000, guid: c18ab5ee88b9b46a296ff07f0aa0fa78, type: 3}
 --- !u!1 &1535282658
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,13 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FootstepController : MonoBehaviour
 {
-    [Header("Footstep Settings")]
-    public float footstepDistance = 1.5f;     // Distance between steps
-    public AudioSource footstepSource;        // Audio Source on the player
-    public AudioClip footstepClip;            // Footstep sound
+    [Header("Walk and sprint Thresholds")]
+    public float walkSpeedMin = 0.1f;
+    public float walkSpeedMax = 5.0f;
+    public float sprintSpeedMin = 5.2f;
 
-    private float distanceTravelled = 0f;
-    private Vector3 lastPos;
+    [Header("Footstep Audio")]
+    public AudioSource footstepSource;
+    public AudioClip walkClip;
+    public AudioClip sprintClip;
+
     private CharacterController controller;
 
     void Start()
@@ -19,39 +22,51 @@ public class FootstepController : MonoBehaviour
         if (footstepSource == null)
             footstepSource = gameObject.AddComponent<AudioSource>();
 
-        lastPos = transform.position;
+        footstepSource.loop = true;
+        footstepSource.playOnAwake = false;
     }
 
     void Update()
     {
-        Vector3 currentPos = transform.position;
+        float speed = new Vector3(controller.velocity.x, 0, controller.velocity.z).magnitude;
 
-        // How far we moved this frame (ignoring vertical motion)
-        Vector3 horizontalMove = new Vector3(currentPos.x - lastPos.x, 0, currentPos.z - lastPos.z);
-        float distanceCurrentFrame = horizontalMove.magnitude;
+        bool isWalking = speed >= walkSpeedMin && speed < walkSpeedMax;
+        bool isSprinting = speed >= sprintSpeedMin;
 
-        // Only add distance while grounded and moving
-        if (controller.isGrounded)
-            Debug.Log("Grounded: " + controller.isGrounded);
-
-            distanceTravelled += distanceCurrentFrame;
-
-        // Check if it's time to play a footstep
-        if (distanceTravelled >= footstepDistance && IsMoving() && controller.isGrounded)
+        // Not moving → stop footsteps
+        if (speed < walkSpeedMin)
         {
-            Debug.Log("Footstep Triggered");
-            footstepSource.PlayOneShot(footstepClip);
-            Debug.Log("Audio playing: " + footstepSource.isPlaying);
-            distanceTravelled = 0f;
+            StopFootsteps();
+            return;
         }
 
-        lastPos = currentPos;
+        if (isWalking)
+        {
+            PlayClipIfDifferent(walkClip);
+        }
+        else if (isSprinting)
+        {
+            PlayClipIfDifferent(sprintClip);
+        }
+        else
+        {
+            StopFootsteps();
+        }
     }
 
-    // Check if the player is actually moving by velocity, not input
-    bool IsMoving()
+    void PlayClipIfDifferent(AudioClip newClip)
     {
-        Vector3 horizontalVelocity = new Vector3(controller.velocity.x, 0, controller.velocity.z);
-        return horizontalVelocity.magnitude > 0.1f;
+        if (footstepSource.clip == newClip && footstepSource.isPlaying)
+            return;
+
+        // switch audioclip in audiosource
+        footstepSource.clip = newClip;
+        footstepSource.Play();
+    }
+
+    void StopFootsteps()
+    {
+        if (footstepSource.isPlaying)
+            footstepSource.Stop();
     }
 }

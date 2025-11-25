@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -49,17 +50,26 @@ public class FPController : MonoBehaviour
     private void Update()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
+        Vector3 right   = transform.TransformDirection(Vector3.right);
 
-        //When shift is pressed sprint
-        bool hasStamina = stamina != null && stamina.hasStamina();
-        bool isRunningKey = Input.GetKey(KeyCode.LeftShift) && hasStamina;
+        bool hasStamina = stamina.hasStamina();
+        bool isRunningInput = Input.GetKey(KeyCode.LeftShift) && hasStamina;
+
+        float targetSpeed = isRunningInput ? runningSpeed : walkingSpeed;
+
+        float inputX = Input.GetAxisRaw("Horizontal");
+        float inputZ = Input.GetAxisRaw("Vertical");
+
+        Vector3 targetDir = (forward * inputZ) + (right * inputX);
+
+        // normalize vector so diagonal movement isn't faster than lateral movemnet
+        if (targetDir.magnitude > 1f)
+            targetDir.Normalize();
+
+        moveDir = targetDir * targetSpeed;
         
-        float curSpeedX = canMove ? (isRunningKey ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunningKey ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDir.y;
-        moveDir = (forward * curSpeedX) + (right * curSpeedY);
-
+        
         controller.Move(moveDir * Time.deltaTime);
 
         if (canMove)
