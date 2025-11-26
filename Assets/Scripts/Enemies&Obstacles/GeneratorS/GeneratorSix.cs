@@ -25,6 +25,9 @@ public class GeneratorSix : MonoBehaviour
     public static bool isSixthFixed;
     private bool isPlayingFixingSound;
 
+    [Header("Flickering Lights")]
+    public Animator flickeringLights;
+
     private FPController movement;
 
 
@@ -72,6 +75,7 @@ public class GeneratorSix : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isSixthFixed = true;
+                        flickeringLights.speed = 0;
 
                         repairAndGenerator.SetActive(false);
                         if (movement != null)

@@ -24,6 +24,9 @@ public class GeneratorFive : MonoBehaviour
     public static bool isFifthFixed;
     private bool isPlayingFixingSound;
 
+    [Header("Flickering Lights")]
+    public Animator flickeringLights;
+
     private FPController movement;
 
 
@@ -71,6 +74,7 @@ public class GeneratorFive : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isFifthFixed = true;
+                        flickeringLights.speed = 0;
 
                         repairAndGenerator.SetActive(false);
                         if (movement != null)

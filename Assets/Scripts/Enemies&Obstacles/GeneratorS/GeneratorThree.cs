@@ -24,6 +24,9 @@ public class GeneratorThree : MonoBehaviour
     public static bool isThirdFixed;
     private bool isPlayingFixingSound;
 
+    [Header("Flickering Lights")]
+    public Animator flickeringLights;
+
     private FPController movement;
 
 
@@ -71,6 +74,7 @@ public class GeneratorThree : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isThirdFixed = true;
+                        flickeringLights.speed = 0;
 
                         repairAndGenerator.SetActive(false);
                         if (movement != null)

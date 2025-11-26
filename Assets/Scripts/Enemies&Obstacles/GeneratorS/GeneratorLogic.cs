@@ -23,6 +23,9 @@ public class GeneratorLogic : MonoBehaviour
     public static bool isFixed;
     private bool isPlayingFixingSound;
 
+    [Header("Flickering Lights")]
+    public Animator flickeringLight;
+
     private FPController movement;
     
 
@@ -72,6 +75,7 @@ public class GeneratorLogic : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isFixed = true;
+                        flickeringLight.speed = 0;
 
                         repairAndGenerator.SetActive(false);
                         if (movement != null)

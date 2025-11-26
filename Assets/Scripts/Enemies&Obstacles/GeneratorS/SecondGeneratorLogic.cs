@@ -24,6 +24,9 @@ public class SecondGeneratorLogic : MonoBehaviour
     public static bool isSecondFixed;
     private bool isPlayingFixingSound;
 
+    [Header("Flickering Lights")]
+    public Animator flickeringLights;
+
     private FPController movement;
     
 
@@ -71,6 +74,7 @@ public class SecondGeneratorLogic : MonoBehaviour
 
                         repairPercentage.value = repairPercentage.maxValue;
                         isSecondFixed = true;
+                        flickeringLights.speed = 0;
 
                         repairAndGenerator.SetActive(false);
                         if (movement != null)
