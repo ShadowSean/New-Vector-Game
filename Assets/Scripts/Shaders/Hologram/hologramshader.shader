@@ -13,7 +13,7 @@ Shader "Unlit/Hollogram"
             }
             SubShader
             {
-            Tags { "RenderPipeline" = "UniversalRenderPipeline" "Queue" = "Transparent" "RenderType" = "Transparent" }
+            Tags { "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent" "RenderType" = "Transparent" }
 
             // Transparency blending
             Blend SrcAlpha OneMinusSrcAlpha

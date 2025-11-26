@@ -33,7 +33,7 @@
     {
         // Tags tell Unity when and how to render this shader
         Tags { 
-            "RenderPipeline" = "UniversalRenderPipeline"
+            "RenderPipeline" = "UniversalPipeline"
             "RenderType" = "Opaque"
         }
 

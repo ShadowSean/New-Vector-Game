@@ -19,7 +19,7 @@
     {
         // Tags tell Unity how and when to render this shader
         Tags { 
-            "RenderPipeline" = "UniversalRenderPipeline"    // Works with URP
+            "RenderPipeline" = "UniversalPipeline"    // Works with URP
             "RenderType" = "Opaque"                         // Opaque surface
         }
 
