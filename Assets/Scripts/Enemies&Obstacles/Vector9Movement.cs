@@ -10,7 +10,8 @@ public class Vector9Movement : MonoBehaviour
     public float chaseDistance;
     public CanvasGroup gameOverCanvas;    
     public float fadeDuration = 2f;
-    
+
+    public GameObject scope;
 
     public Animator animator;
     //[SerializeField] private CanvasGroup gameOverCanvas;
@@ -27,13 +28,16 @@ public class Vector9Movement : MonoBehaviour
     //[SerializeField] float fadeDuration = 2f;
 
     //[SerializeField] float attackRange = 1f;
-    
+    public bool isStunned;
+    public float stunRange = 5f;
     int currentPatrolIndex = 0;
     bool isPlayerInRange;
     bool waiting;
     //bool gameOverTriggered;
     
     private NavMeshAgent agent;
+
+    public GameObject stunIcon;
 
     //[SerializeField]private Collider triggerCollider;
     //[SerializeField]private Collider solidCollider;
@@ -63,7 +67,21 @@ public class Vector9Movement : MonoBehaviour
 
     private void Update()
     {
+        if (isStunned)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            return;   // <-- prevents chase/patrol logic from running
+        }
         float dist = Vector3.Distance(transform.position, playerPosition.position);
+        if (scope != null)
+        {
+            if (dist <= stunRange)
+                scope.SetActive(false);   
+            else
+                scope.SetActive(true);    
+        }
+        stunIcon.SetActive(dist <= stunRange);
         if (dist <= chaseDistance)
         {
             isPlayerInRange = true;
@@ -190,6 +208,7 @@ public class Vector9Movement : MonoBehaviour
 
     private IEnumerator GameOverSequence()
     {
+        yield return new WaitForSeconds(2.5f);
 
         float t = 0f;
         while (t < fadeDuration)
@@ -208,5 +227,26 @@ public class Vector9Movement : MonoBehaviour
     public void StartFade()
     {
         StartCoroutine(GameOverSequence());
+    }
+
+    public void Stun()
+    {
+        
+        isStunned = true;
+        animator.SetTrigger("Stun");
+        
+        agent.isStopped = true;
+        
+        StartCoroutine(Recover());
+    }
+
+    IEnumerator Recover()
+    {
+        yield return new WaitForSeconds(10f);
+        isStunned = false;
+        agent.isStopped = false;
+        animator.ResetTrigger("Stun");
+
+        animator.Play("Walking", 0);
     }
 }

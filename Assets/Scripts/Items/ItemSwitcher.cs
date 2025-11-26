@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemSwitcher : MonoBehaviour
@@ -9,11 +10,17 @@ public class ItemSwitcher : MonoBehaviour
     public GameObject flashlightIcon;
     public GameObject taserIcon;
 
+    private TaserRodAttack attackController;
+
     private int currentItemIndex = 0;
     private bool hasFlashlight = false;
     private bool hasTaser = false;
     //private bool hasCodeOne = false;
 
+    private void Start()
+    {
+        attackController = taserRod_player.GetComponent<TaserRodAttack>();
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) && hasFlashlight)
@@ -24,10 +31,15 @@ public class ItemSwitcher : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && hasTaser)
         {
+
             flashlightBar.SetActive(false);
             EquipItem(2);
         }
+
+        
     }
+
+    
 
     void EquipItem(int index)
     {

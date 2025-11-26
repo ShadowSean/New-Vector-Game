@@ -6,8 +6,7 @@ using UnityEngine.AI;
 public class PlayerCollisionHandler : MonoBehaviour
 {
     [Header("Game Over Settings")]
-    public CanvasGroup gameOverCanvas;    // drag your GameOverCanvas (with CanvasGroup)
-    public float fadeDuration = 2f;       // how fast the fade happens
+   
     public AudioSource jumpscareSource;   // audio source that will play the jumpscare sound
     public AudioClip jumpscareClip;       // assign your jumpscare audio file here
 
@@ -34,18 +33,23 @@ public class PlayerCollisionHandler : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
+            Vector9Movement stun = other.GetComponent<Vector9Movement>();
+            if(stun != null && stun.isStunned)
+            {
+                return;
+            }
            
             gameOverTriggered = true;
 
-            // Stop player movement if you have movement logic here
-            // (optional depending on your controller script)
-
-            // Play jumpscare sound
+            
             if (jumpscareSource && jumpscareClip)
             {
                 jumpscareSource.PlayOneShot(jumpscareClip);
                 cameraObj.SetActive(true);
-                Vector9.GetComponent<Animator>().SetTrigger("Scare");
+
+                Animator jumpScare = Vector9.GetComponent<Animator>();
+                jumpScare.speed = 0.3f;
+                jumpScare.SetTrigger("Scare");
       
             }
             Vector9.GetComponent<NavMeshAgent>().isStopped = true;
@@ -56,24 +60,13 @@ public class PlayerCollisionHandler : MonoBehaviour
             if (inventory) inventory.SetActive(false);
             if (staminaAndItem) staminaAndItem.SetActive(false);
             if (scope) scope.SetActive(false);
+
+            if(stun != null)
+            {
+                stun.StartFade();
+            }
         }
     }
 
-    private IEnumerator GameOverSequence()
-    {
-        yield return new WaitForSeconds(2.5f);
-       
-
-        float t = 0f;
-        while (t < fadeDuration)
-        {
-            t += Time.deltaTime;
-            if (gameOverCanvas)
-                gameOverCanvas.alpha = Mathf.Lerp(0, 1, t / fadeDuration);
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(5f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    
 }
