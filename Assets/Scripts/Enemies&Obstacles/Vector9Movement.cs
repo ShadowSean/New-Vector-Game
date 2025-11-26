@@ -88,7 +88,10 @@ public class Vector9Movement : MonoBehaviour
             agent.speed = vectorChaseSpeed;
             agent.angularSpeed = 800f;
             agent.acceleration = 20f;
-            animator.speed = 5f;
+            if(dist >= 5f)
+            {
+                animator.speed = 5f;
+            }
 
             agent.destination = playerPosition.position;
         }
@@ -219,9 +222,10 @@ public class Vector9Movement : MonoBehaviour
             yield return null;
         }
         print("bye");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         print("Hi");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        yield break;
     }
 
     public void StartFade()

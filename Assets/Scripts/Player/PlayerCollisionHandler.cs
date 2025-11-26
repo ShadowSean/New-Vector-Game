@@ -10,10 +10,10 @@ public class PlayerCollisionHandler : MonoBehaviour
     public AudioSource jumpscareSource;   // audio source that will play the jumpscare sound
     public AudioClip jumpscareClip;       // assign your jumpscare audio file here
 
-    public GameObject inventory;
-    public GameObject staminaAndItem;
+    public GameObject MainCanvas;
+
     public GameObject cameraObj;
-    public GameObject scope;
+
 
 
     public GameObject Vector9;
@@ -23,6 +23,7 @@ public class PlayerCollisionHandler : MonoBehaviour
     private void Start()
     {
         cameraObj.SetActive(false);
+        MainCanvas.SetActive(true);
  
     }
 
@@ -41,14 +42,14 @@ public class PlayerCollisionHandler : MonoBehaviour
            
             gameOverTriggered = true;
 
-            
+            if (MainCanvas) MainCanvas.SetActive(false);
             if (jumpscareSource && jumpscareClip)
             {
                 jumpscareSource.PlayOneShot(jumpscareClip);
                 cameraObj.SetActive(true);
 
                 Animator jumpScare = Vector9.GetComponent<Animator>();
-                jumpScare.speed = 0.3f;
+                jumpScare.speed = 1f;
                 jumpScare.SetTrigger("Scare");
       
             }
@@ -57,9 +58,7 @@ public class PlayerCollisionHandler : MonoBehaviour
 
 
 
-            if (inventory) inventory.SetActive(false);
-            if (staminaAndItem) staminaAndItem.SetActive(false);
-            if (scope) scope.SetActive(false);
+           
 
             if(stun != null)
             {
