@@ -1,15 +1,13 @@
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Stamina : MonoBehaviour
 {
     [Header("Stamina Settings")]
-    public Slider staminaBar;
+    public Image staminaImage;       // ← assign your UI Image
     public float maxStamina = 100f;
     public float staminaDrain = 10f;
     public float staminaRegen = 5f;
-
 
     [HideInInspector] public float currentStam;
     private FPController staminaMovement;
@@ -19,12 +17,10 @@ public class Stamina : MonoBehaviour
         staminaMovement = FindFirstObjectByType<FPController>();
         currentStam = maxStamina;
 
-        if (staminaBar != null)
+        if (staminaImage != null)
         {
-            staminaBar.maxValue = maxStamina;
-            staminaBar.value = maxStamina;
+            staminaImage.fillAmount = 1f;  // full stamina
         }
-        
     }
 
     private void Update()
@@ -32,28 +28,24 @@ public class Stamina : MonoBehaviour
         if (staminaMovement == null) return;
 
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        bool isMoving = Input.GetAxis("Horizontal") !=0 || Input.GetAxis("Vertical") != 0;
+        bool isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
 
         if (isRunning && isMoving && currentStam > 0)
         {
             currentStam -= staminaDrain * Time.deltaTime;
-            if (currentStam < 0)
-            {
-                currentStam = 0;
-            }
+            if (currentStam < 0) currentStam = 0;
         }
         else
         {
             if (currentStam < maxStamina)
-            {
                 currentStam += staminaRegen * Time.deltaTime;
-            }
         }
-        if (staminaBar != null)
+
+        // Update UI Image Fill
+        if (staminaImage != null)
         {
-            staminaBar.value = currentStam;
+            staminaImage.fillAmount = currentStam / maxStamina;
         }
-        
     }
 
     public bool hasStamina()
