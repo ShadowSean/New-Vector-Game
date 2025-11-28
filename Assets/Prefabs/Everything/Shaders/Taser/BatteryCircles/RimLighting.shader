@@ -12,6 +12,10 @@
         _RimPower ("Rim Power", Range(0.5, 8.0)) = 3.0
 
         _RimIntensity ("Rim Intensity", Range(0.0, 10.0)) = 0
+
+        [Toggle] _RimBreathe ("Rim Breathe", Float) = 1
+
+        _RimBreatheSpeed ("Rim Breathing Speed", Range(1.0, 10.0)) = 1.0
     }
 
     SubShader
@@ -60,6 +64,8 @@
                 float4 _RimColor;    // Color of rim glow
                 float  _RimPower;    // Controls rim falloff
                 float _RimIntensity;
+                float _RimBreathe;
+                float _RimBreatheSpeed;
             CBUFFER_END
 
             // =============================
@@ -101,10 +107,15 @@
                 // Raising to a power (_RimPower) makes the rim sharper or softer.
                 half rimLighting = pow(rimFactor, _RimPower);
 
+                // step 3.5 make it breathe if its enabled
+                half3 rimPixel = (_RimColor.rgb * rimLighting) * _RimIntensity;
+
+                if (_RimBreathe) rimPixel *= saturate(sin(_Time.y*_RimBreatheSpeed)+1);
+
                 // --- Step 4: Combine base color with rim lighting ---
                 // Multiply rim color × rimLighting → gives rim intensity in rim color.
                 // Then add to base color for final glow effect.
-                half3 finalColor = _BaseColor.rgb + (_RimColor.rgb * rimLighting) * _RimIntensity;
+                half3 finalColor = _BaseColor.rgb + rimPixel;
                 // (We multiply _RimColor.rgb × rimLighting = rim glow intensity)
                 // (Then we add + _BaseColor.rgb = final combined color)
 
