@@ -28,7 +28,7 @@ Material:
     - _NoiseScaleA: 200
     - _NoiseScaleB: -200
     m_Colors:
-    - _ScrollA: {r: 6.5, g: 20, b: 0, a: 2}
-    - _ScrollB: {r: 20, g: 55, b: 0, a: 2}
+    - _ScrollA: {r: 1.35, g: 4, b: 0, a: 2}
+    - _ScrollB: {r: 4, g: 11, b: 0, a: 2}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
