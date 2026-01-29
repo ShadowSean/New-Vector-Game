@@ -29,6 +29,10 @@ public class GeneratorFive : MonoBehaviour
 
     private FPController movement;
 
+    [Header("Noise Lure")]
+    public float hearRadius = 25f;
+    public float searchRadius = 6f;
+
 
     private void Start()
     {
@@ -75,6 +79,7 @@ public class GeneratorFive : MonoBehaviour
                         repairPercentage.value = repairPercentage.maxValue;
                         isFifthFixed = true;
                         flickeringLights.speed = 0;
+                        NoiseSystem.PlayerNoise(transform.position, hearRadius, searchRadius);
 
                         repairAndGenerator.SetActive(false);
                         if (movement != null)
