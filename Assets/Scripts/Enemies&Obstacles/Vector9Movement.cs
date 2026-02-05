@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Vector9Movement : MonoBehaviour
 {
     [SerializeField] private Transform playerPosition;
-    [SerializeField] private Transform[] patrolAreas;
+    public Transform[] patrolAreas;
     public float chaseDistance;
     public CanvasGroup gameOverCanvas;    
     public float fadeDuration = 2f;
@@ -22,20 +22,20 @@ public class Vector9Movement : MonoBehaviour
 
    
 
-    [SerializeField] float waitTime = 2f;
-    [SerializeField] float vectorPatrolSpeed = 2f;
-    [SerializeField] float vectorChaseSpeed = 10f;
+    public float waitTime = 2f;
+    public float vectorPatrolSpeed = 2f;
+    public float vectorChaseSpeed = 10f;
     //[SerializeField] float fadeDuration = 2f;
 
     //[SerializeField] float attackRange = 1f;
     public bool isStunned;
-    public float stunRange = 5f;
+    public float stunRange = 10f;
     int currentPatrolIndex = 0;
     bool isPlayerInRange;
     bool waiting;
     //bool gameOverTriggered;
     
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
 
     public GameObject stunIcon;
 
