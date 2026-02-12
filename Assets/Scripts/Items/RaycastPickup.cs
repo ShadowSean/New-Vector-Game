@@ -17,6 +17,8 @@ public class RaycastPickup : MonoBehaviour
 
     private FPController playerMovement;
     private Animator anim;
+    private LightBehaviour lightBehaviour;
+    private TaserRodAttack taserValues;
 
     
     public AudioSource audioSource;
@@ -24,6 +26,8 @@ public class RaycastPickup : MonoBehaviour
 
     private bool hasMinimap = false;
     private bool minimapOpen = false;
+    public static bool canUpgradeFlash;
+    public static bool canUpgradeTaser;
     public KeyCode minimapKey = KeyCode.M;
 
 
@@ -128,6 +132,40 @@ public class RaycastPickup : MonoBehaviour
 
     }
 
+    void FlashlightUpgrade()
+    {
+        canUpgradeFlash = true;
+        if (lightBehaviour != null)
+        {
+            lightBehaviour = playerCamera.GetComponentInChildren<LightBehaviour>(true);
+        }
+
+        if (lightBehaviour == null)
+        {
+            Debug.LogWarning("No LightBehaviour found under the player. Upgrade not applied.");
+            return;
+        }
+
+        lightBehaviour.drainRate = 300;
+        Debug.Log("Flashlight upgrade applied: drainRate = " + lightBehaviour.drainRate);
+    
+
+    }
+
+
+
+    void TaserRodUpgrade()
+    {
+        canUpgradeTaser = true;
+       if (taserValues == null)
+        {
+            taserValues = GetComponentInChildren<TaserRodAttack>(true);
+        }
+
+        taserValues.cooldown = 1f;
+        taserValues.stunRange = 20f;
+    }
+
     void PickUp(pickupItem currentPickup)
     {
        
@@ -149,6 +187,12 @@ public class RaycastPickup : MonoBehaviour
                     break;
                 case ItemType.Taser:
                     itemSwitcher.PickupTaser();
+                    break;
+                case ItemType.TaserUpg:
+                    TaserRodUpgrade();
+                    break;
+                case ItemType.FlashlightUpg:
+                    FlashlightUpgrade();
                     break;
                 case ItemType.Map:
                     hasMinimap = true;

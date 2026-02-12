@@ -43,7 +43,8 @@ public enum ItemType
     None,
     Flashlight,
     Taser,
-    Map
-    //CodeOne
+    Map,
+    FlashlightUpg,
+    TaserUpg
    
 }
