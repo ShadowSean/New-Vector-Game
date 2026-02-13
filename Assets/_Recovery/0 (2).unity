@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.085439615, g: 0.11025777, b: 0.20125782, a: 1}
   m_FogMode: 2
   m_FogDensity: 0.05
@@ -57804,7 +57804,7 @@ GameObject:
   - component: {fileID: 1865971785}
   - component: {fileID: 1865971786}
   m_Layer: 0
-  m_Name: LightHandler
+  m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

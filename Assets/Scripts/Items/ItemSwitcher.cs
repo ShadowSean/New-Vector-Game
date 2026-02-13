@@ -6,6 +6,7 @@ public class ItemSwitcher : MonoBehaviour
     public GameObject flashlight_player;
     public GameObject taserRod_player;
     public GameObject flashlightBar;
+    public Animator animator;
 
     public GameObject flashlightIcon;
     public GameObject taserIcon;
@@ -25,18 +26,31 @@ public class ItemSwitcher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) && hasFlashlight)
         {
-            flashlightBar.SetActive(true);
+            flashlight_player.SetActive(true);
+            animator.SetTrigger("Take Out");
             EquipItem(1);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && hasTaser)
         {
 
-            flashlightBar.SetActive(false);
+            animator.SetTrigger("Hide");
+
             EquipItem(2);
         }
 
-        
+        if (Input.GetKeyDown(KeyCode.R) && hasFlashlight)
+        {
+            animator.SetTrigger("Recharage");
+            EquipItem(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            bool isAnimating = animator.GetBool("On");
+            animator.SetBool("On", !isAnimating);
+        }
+
     }
 
     
