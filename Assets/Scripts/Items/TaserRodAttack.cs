@@ -28,8 +28,12 @@ public class TaserRodAttack : MonoBehaviour
 
     void TryStunEnemy()
     {
-        // Raycast from camera forward
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hit, stunRange, enemyLayer))
+        float capsuleRadius = 0.5f;
+        float capsuleHeight = 1.0f;
+
+        Vector3 start = playerCam.transform.position - playerCam.transform.up * 0.5f;
+        Vector3 end = playerCam.transform.position + playerCam.transform.up * 0.5f;
+        if (Physics.CapsuleCast(start, end, capsuleRadius, playerCam.transform.forward, out RaycastHit hit, stunRange,enemyLayer))
         {
             Vector9Movement enemy = hit.collider.GetComponent<Vector9Movement>();
 

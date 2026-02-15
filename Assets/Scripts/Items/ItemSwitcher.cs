@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class ItemSwitcher : MonoBehaviour
@@ -10,16 +11,21 @@ public class ItemSwitcher : MonoBehaviour
 
     public GameObject flashlightIcon;
     public GameObject taserIcon;
+    public GameObject batteryInt;
 
     private TaserRodAttack attackController;
+    LightBehaviour batteryBehaviour;
 
     private int currentItemIndex = 0;
     private bool hasFlashlight = false;
     private bool hasTaser = false;
-    //private bool hasCodeOne = false;
+    bool hasBattery;
+    GameObject batteryPrefab;
+    
 
     private void Start()
     {
+        batteryBehaviour = flashlight_player.GetComponentInChildren<LightBehaviour>();
         attackController = taserRod_player.GetComponent<TaserRodAttack>();
     }
     private void Update()
@@ -39,10 +45,23 @@ public class ItemSwitcher : MonoBehaviour
             EquipItem(2);
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && hasFlashlight)
+        if (Input.GetKeyDown(KeyCode.R) && hasFlashlight && hasBattery)
         {
+            if (batteryBehaviour != null)
+            {
+                batteryBehaviour.ReplaceBatteryFull();
+            }
+            
             animator.SetTrigger("Recharage");
             EquipItem(1);
+
+            if (batteryPrefab != null)
+            {
+                batteryPrefab.SetActive(false);
+                batteryInt.SetActive(false);
+            }
+            hasBattery = false;
+            batteryPrefab = null;
         }
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -107,6 +126,27 @@ public class ItemSwitcher : MonoBehaviour
         if (taserIcon != null)
         {
             taserIcon.SetActive(hasTaser);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Battery"))
+        {
+            hasBattery = true;
+            batteryPrefab = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Battery"))
+        {
+            hasBattery = false;
+            if (batteryPrefab == other.gameObject)
+            {
+                batteryPrefab = null;
+            }
         }
     }
 }

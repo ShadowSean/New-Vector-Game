@@ -135,10 +135,7 @@ public class RaycastPickup : MonoBehaviour
     void FlashlightUpgrade()
     {
         canUpgradeFlash = true;
-        if (lightBehaviour != null)
-        {
-            lightBehaviour = playerCamera.GetComponentInChildren<LightBehaviour>(true);
-        }
+        lightBehaviour = playerCamera.GetComponentInChildren<LightBehaviour>(true);
 
         if (lightBehaviour == null)
         {
@@ -162,8 +159,8 @@ public class RaycastPickup : MonoBehaviour
             taserValues = GetComponentInChildren<TaserRodAttack>(true);
         }
 
-        taserValues.cooldown = 1f;
-        taserValues.stunRange = 20f;
+        taserValues.cooldown = 2.5f;
+        taserValues.stunRange = 25f;
     }
 
     void PickUp(pickupItem currentPickup)

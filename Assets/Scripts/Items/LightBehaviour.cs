@@ -17,6 +17,7 @@ public class LightBehaviour : MonoBehaviour
     public GameObject battery;
     public Slider batteryBar;
     bool canReplaceBattery;
+    GameObject nearBattery;
 
     private void Start()
     {
@@ -37,37 +38,19 @@ public class LightBehaviour : MonoBehaviour
 
         batteryBar.value = Mathf.InverseLerp(minBrightness,maxBrightness,newFlashlight.intensity);
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-           
-        }
+        
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            batteryInt.SetActive(false);
-            battery.SetActive(false);
-            ReplaceBattery(1f);
-        }
+        
     }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Battery"))
-        {
-           canReplaceBattery = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Battery"))
-        {
-            canReplaceBattery = false;
-        }
-    }
+   
 
     public void ReplaceBattery(float amount)
     {
         newFlashlight.intensity = Mathf.Clamp(newFlashlight.intensity + amount, minBrightness, maxBrightness);
+    }
+
+    public void ReplaceBatteryFull()
+    {
+        newFlashlight.intensity = maxBrightness;
     }
 }
