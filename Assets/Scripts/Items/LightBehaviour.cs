@@ -36,18 +36,14 @@ public class LightBehaviour : MonoBehaviour
             }
         }
 
+        // Helps batterybar drain properly (fixes direction of drainage issue)
         batteryBar.value = Mathf.InverseLerp(minBrightness,maxBrightness,newFlashlight.intensity);
-
+       
         
 
         
     }
    
-
-    public void ReplaceBattery(float amount)
-    {
-        newFlashlight.intensity = Mathf.Clamp(newFlashlight.intensity + amount, minBrightness, maxBrightness);
-    }
 
     public void ReplaceBatteryFull()
     {
