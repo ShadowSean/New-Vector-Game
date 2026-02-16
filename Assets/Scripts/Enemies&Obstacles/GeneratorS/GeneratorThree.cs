@@ -2,17 +2,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class GeneratorThree : MonoBehaviour
 {
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
-    
+    public TMP_Text repairSpeedText;
+
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
-    public float repairSpeed = 0.5f;
+    public float repairDuration = 30f;
     public float textDuration = 5f;
 
     [Header("Gen Sounds")]
@@ -21,11 +23,14 @@ public class GeneratorThree : MonoBehaviour
     public AudioSource genFixingSource;
 
     bool inRange;
-    public static bool isThirdFixed;
+    public bool isThirdFixed;
     private bool isPlayingFixingSound;
 
     [Header("Flickering Lights")]
     public Animator flickeringLights;
+
+    [Header("Gen Upgrade Speed")]
+    public FasterGen fastRepairSpeed;
 
     private FPController movement;
 
@@ -49,6 +54,7 @@ public class GeneratorThree : MonoBehaviour
     {
         if (inRange)
         {
+            UpdateRepairSpeedtext();
             if (CrateThreeUI.partsCollectedThree && !isThirdFixed)
             {
                 if (Input.GetMouseButton(0))
@@ -57,9 +63,12 @@ public class GeneratorThree : MonoBehaviour
                     {
                         movement.canMove = false;
                     }
-                    repairPercentage.value += repairSpeed * Time.deltaTime;
+                    float duration = fastRepairSpeed.GetRepairDuration();
+                    float rate = repairPercentage.maxValue / duration;
+                    repairPercentage.value += rate * Time.deltaTime;
 
-                    
+
+
 
                     if (!isPlayingFixingSound && genFixing != null)
                     {
@@ -152,6 +161,23 @@ public class GeneratorThree : MonoBehaviour
 
 
         }
+    }
+
+    void UpdateRepairSpeedtext()
+    {
+        if (repairSpeedText == null || fastRepairSpeed == null)
+        {
+            return;
+        }
+
+        float duration = fastRepairSpeed.GetRepairDuration();
+        int batteries = fastRepairSpeed.batteryCount;
+        float speedBoostPercent = (repairDuration / duration - 1f) * 100f;
+        if (speedBoostPercent < 0f)
+        {
+            speedBoostPercent = 0f;
+        }
+        repairSpeedText.text = $"Upgrade +{speedBoostPercent:0}% speed (Batteries: {batteries})";
     }
 
     private void OnTriggerExit(Collider other)

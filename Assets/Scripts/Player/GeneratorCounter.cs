@@ -9,6 +9,10 @@ public class GeneratorCounter : MonoBehaviour
     public int totalGens = 6;
     private int partCount = 0;
     public TextMeshProUGUI[] greenTexts;
+    public int FixedCount
+    {
+        get { return partCount; }
+    }
 
     private void Awake()
     {

@@ -185,6 +185,9 @@ public class RaycastPickup : MonoBehaviour
                 case ItemType.Taser:
                     itemSwitcher.PickupTaser();
                     break;
+                case ItemType.Flamethrower:
+                    itemSwitcher.PickupFlamethrower();
+                    break;
                 case ItemType.TaserUpg:
                     TaserRodUpgrade();
                     break;

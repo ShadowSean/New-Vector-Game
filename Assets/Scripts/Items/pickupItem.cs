@@ -45,6 +45,7 @@ public enum ItemType
     Taser,
     Map,
     FlashlightUpg,
-    TaserUpg
+    TaserUpg,
+    Flamethrower
    
 }

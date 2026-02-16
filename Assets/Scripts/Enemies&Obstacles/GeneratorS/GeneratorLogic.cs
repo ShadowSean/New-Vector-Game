@@ -1,17 +1,19 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GeneratorLogic : MonoBehaviour
 {
     [Header("Generator UI")]
     public GameObject repairAndGenerator;
     public Slider repairPercentage;
+    public TMP_Text repairSpeedText;
     
 
     [Header("Base Settings")]
     public GameObject partsNeeded, playerCursor;
-    public float repairSpeed = 1f/ 10f;
+    public float repairDuration = 30f;
     public float textDuration = 5f;
 
     [Header("Gen Sounds")]
@@ -20,11 +22,14 @@ public class GeneratorLogic : MonoBehaviour
     public AudioSource genFixingSource;
 
     bool inRange;
-    public static bool isFixed;
+    public bool isFixed;
     private bool isPlayingFixingSound;
 
     [Header("Flickering Lights")]
     public Animator flickeringLight;
+
+    [Header("Gen Upgrade Speed")]
+    public FasterGen fastRepairSpeed;
 
     private FPController movement;
     
@@ -48,6 +53,7 @@ public class GeneratorLogic : MonoBehaviour
     {
         if (inRange)
         {
+            UpdateRepairSpeedtext();
             if (CrateUI.partsCollected && !isFixed)
             {
                 if (Input.GetMouseButton(0))
@@ -56,7 +62,9 @@ public class GeneratorLogic : MonoBehaviour
                     {
                         movement.canMove = false;
                     }
-                    repairPercentage.value += repairSpeed * Time.deltaTime;
+                    float duration = fastRepairSpeed.GetRepairDuration();
+                    float rate = repairPercentage.maxValue / duration;
+                    repairPercentage.value += rate * Time.deltaTime;
 
 
 
@@ -150,8 +158,38 @@ public class GeneratorLogic : MonoBehaviour
             repairAndGenerator.SetActive(true);
             repairPercentage.gameObject.SetActive(true);
 
-            
+            UpdateRepairSpeedtext();
         }
+    }
+
+    void UpdateRepairSpeedtext()
+    {
+        if (repairSpeedText == null)
+        {
+            Debug.LogWarning($"{name}: repairSpeedText NOT assigned");
+            return;
+        }
+
+        if (fastRepairSpeed == null)
+        {
+            repairSpeedText.text = "No FasterGen assigned!";
+            Debug.LogWarning($"{name}: fastRepairSpeed NOT assigned");
+            return;
+        }
+
+        
+        
+
+        float duration = fastRepairSpeed.GetRepairDuration();
+        int batteries = fastRepairSpeed.batteryCount;
+        float speedBoostPercent = (repairDuration / duration - 1f) * 100f;
+        if (speedBoostPercent < 0f)
+        {
+            speedBoostPercent = 0f;
+        }
+        repairSpeedText.text = $"Upgrade +{speedBoostPercent:0}% speed (Batteries: {batteries})";
+
+        Debug.Log($"{name}: UI updated, batteries = {batteries}, duration = {duration}");
     }
 
     private void OnTriggerExit(Collider other)

@@ -29,6 +29,7 @@ public class Vector9Movement : MonoBehaviour
 
     //[SerializeField] float attackRange = 1f;
     public bool isStunned;
+    public bool isSlowed;
     public float stunRange = 10f;
     int currentPatrolIndex = 0;
     bool isPlayerInRange;
@@ -244,6 +245,7 @@ public class Vector9Movement : MonoBehaviour
         StartCoroutine(Recover());
     }
 
+    
     IEnumerator Recover()
     {
         yield return new WaitForSeconds(10f);

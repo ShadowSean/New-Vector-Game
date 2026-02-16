@@ -2,22 +2,18 @@ using UnityEngine;
 
 public class GensFixed : MonoBehaviour
 {
-    private GeneratorLogic generatorLogic;
-    private SecondGeneratorLogic secondGeneratorLogic;
-    private GeneratorThree genThree;
-    private GeneratorFour genFour;
-    private GeneratorFive genFive;
-    private GeneratorSix genSix;
-
     public GameObject door;
+    private bool opened;
 
     private void Update()
     {
-        if (GeneratorLogic.isFixed && SecondGeneratorLogic.isSecondFixed && GeneratorThree.isThirdFixed
-            && GeneratorFour.isFourthFixed && GeneratorFive.isFifthFixed && GeneratorSix.isSixthFixed)
+        if (opened) return;
+
+        if (GeneratorCounter.Instance != null &&
+            GeneratorCounter.Instance.FixedCount >= GeneratorCounter.Instance.totalGens)
         {
             door.SetActive(false);
+            opened = true;
         }
-
     }
 }

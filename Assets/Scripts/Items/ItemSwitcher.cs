@@ -6,6 +6,7 @@ public class ItemSwitcher : MonoBehaviour
 {
     public GameObject flashlight_player;
     public GameObject taserRod_player;
+    public GameObject flamethrower_player;
     public GameObject flashlightBar;
     public Animator animator;
 
@@ -15,10 +16,12 @@ public class ItemSwitcher : MonoBehaviour
 
     private TaserRodAttack attackController;
     LightBehaviour batteryBehaviour;
+    public FasterGen fastRepairSpeed;
 
     private int currentItemIndex = 0;
     private bool hasFlashlight = false;
     private bool hasTaser = false;
+    bool hasFlamethrower;
     bool hasBattery;
     GameObject batteryPrefab;
     
@@ -45,11 +48,27 @@ public class ItemSwitcher : MonoBehaviour
             EquipItem(2);
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3) && hasFlamethrower)
+        {
+            EquipItem(3);
+        }
+
         if (Input.GetKeyDown(KeyCode.R) && hasFlashlight && hasBattery)
         {
             if (batteryBehaviour != null)
             {
                 batteryBehaviour.ReplaceBatteryFull();
+            }
+
+            //Counts this as collecting battery
+            if (fastRepairSpeed != null)
+            {
+                fastRepairSpeed.batteryCount++;
+                Debug.Log("BatteryCount is now: " + fastRepairSpeed.batteryCount);
+            }
+            else
+            {
+                Debug.LogWarning("ItemSwitched: fastRepaidSpeed NOT assigned");
             }
             
             animator.SetTrigger("Recharage");
@@ -80,6 +99,12 @@ public class ItemSwitcher : MonoBehaviour
 
         flashlight_player.SetActive(index == 1);
         taserRod_player.SetActive(index == 2);
+        flamethrower_player.SetActive(index == 3);
+
+        if (flashlightBar != null)
+        {
+            flashlightBar.SetActive(index == 1);
+        }
 
 
         UpdateIcons();
@@ -87,13 +112,14 @@ public class ItemSwitcher : MonoBehaviour
 
     void CycleItems(int direction)
     {
-        int maxItems = (hasFlashlight ? 1 : 0) + (hasTaser ? 1 : 0);
+        int maxItems = (hasFlashlight ? 1 : 0) + (hasTaser ? 1 : 0) + (hasFlamethrower ? 1: 0);
         if (maxItems <= 1) return;
 
         int[] availableItems = new int[maxItems];
         int count = 0;
         if (hasFlashlight) availableItems[count++] = 1;
         if(hasTaser) availableItems[count++] = 2;
+        if (hasFlamethrower) availableItems[count++] = 3;
         
         int currentIndex = System.Array.IndexOf(availableItems, currentItemIndex);
         currentIndex = (currentIndex + direction + count) % count;
@@ -103,7 +129,6 @@ public class ItemSwitcher : MonoBehaviour
     public void PickupFlashlight()
     {
         hasFlashlight = true;
-        flashlightBar.SetActive(true);
         UpdateIcons();
         EquipItem(1);
     }
@@ -111,9 +136,14 @@ public class ItemSwitcher : MonoBehaviour
     public void PickupTaser()
     {
         hasTaser = true;
-        flashlightBar.SetActive(false);
         UpdateIcons();
         EquipItem(2);
+    }
+
+    public void PickupFlamethrower()
+    {
+        hasFlamethrower = true;
+        EquipItem(3);
     }
 
     void UpdateIcons()
