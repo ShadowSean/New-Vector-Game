@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -455,10 +455,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 560}
-      m_SelectedIDs: 16550000
-      m_LastClickedID: 0
-      m_ExpandedIDs: b237ffff64f2ffffd4f8ffffbcc2000060c50000d8c5000088d300000ed40000
+      scrollPos: {x: 0, y: 788}
+      m_SelectedIDs: 8cddffff
+      m_LastClickedID: -8820
+      m_ExpandedIDs: a448fdff00a1ffff40d1ffff8cd3fffff0dcfffff4dcfffff8dcffff82ddffff86ddffff8cddffffccfaffffeafaffffc8bb0000cec1000046c20000bec80000d2c90000fecf000076d0000084d000008a8406000e960600e6ba0600bebe0600e8bf060004c00600
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1132,9 +1132,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 6.045945, y: -3.9440653, z: 81.61731}
+    m_Target: {x: -65.4816, y: -2.2565236, z: 104.90861}
     speed: 2
-    m_Value: {x: 6.045945, y: -3.9440653, z: 81.61731}
+    m_Value: {x: -65.4816, y: -2.2565236, z: 104.90861}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1180,9 +1180,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.008997273, y: 0.9857767, z: -0.15838599, w: 0.05592459}
+    m_Target: {x: -0.11909865, y: 0.6445161, z: -0.10255315, w: -0.7483614}
     speed: 2
-    m_Value: {x: 0.008997046, y: 0.9857519, z: -0.15838201, w: 0.055923183}
+    m_Value: {x: -0.120985016, y: 0.63868505, z: -0.102607846, w: -0.7529381}
   m_Size:
     m_Target: 12.857442
     speed: 2
@@ -1267,7 +1267,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Items
+    - Assets/Scripts/Player
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1277,16 +1277,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Items
+  - Assets/Scripts/Player
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\ezsea\Downloads\NewVectorGame
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 184}
-    m_SelectedIDs: 68000100
-    m_LastClickedID: 65640
-    m_ExpandedIDs: 00000000aaff000060000100680001006a00010000ca9a3b
+    scrollPos: {x: 0, y: 127}
+    m_SelectedIDs: f0fd0000
+    m_LastClickedID: 65008
+    m_ExpandedIDs: 00000000defc0000defd000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1315,7 +1315,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000aaff0000
+    m_ExpandedIDs: 00000000defc0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1361,7 +1361,7 @@ MonoBehaviour:
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
-      m_ClientGUIView: {fileID: 10}
+      m_ClientGUIView: {fileID: 9}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0

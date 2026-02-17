@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using TreeEditor;
 
 public class Vector9Movement : MonoBehaviour
 {
@@ -40,6 +41,20 @@ public class Vector9Movement : MonoBehaviour
 
     public GameObject stunIcon;
 
+    [Header("Fire Zone Settings")]
+    public bool isFireApplied;
+    public float fireFearMinDistance = 8f;
+    public float fireFearRetreatSpeed = 6f;
+    public bool retreat = true;
+
+    float fireFearUntil;
+
+    // Save defaults of vector9's settings based on gamemode
+    float defaultChaseDistance;
+    float defaultChaseSpeed;
+    float defaultAngularSpeed;
+    float defaultAccel;
+
     //[SerializeField]private Collider triggerCollider;
     //[SerializeField]private Collider solidCollider;
 
@@ -49,14 +64,15 @@ public class Vector9Movement : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         
-
-
-        //if(triggerCollider) triggerCollider.enabled = true;
-        //if(solidCollider) solidCollider.enabled = false;
     }
 
     private void Start()
     {
+        defaultChaseDistance = chaseDistance;
+        defaultChaseSpeed = vectorChaseSpeed;
+        defaultAngularSpeed = agent.angularSpeed;
+        defaultAccel = agent.acceleration;
+
         if (patrolAreas.Length > 0)
         {
             agent.speed = vectorPatrolSpeed;
@@ -74,6 +90,14 @@ public class Vector9Movement : MonoBehaviour
             agent.velocity = Vector3.zero;
             return;   // <-- prevents chase/patrol logic from running
         }
+
+
+
+
+        if (isFireApplied && Time.time >= fireFearUntil)
+        {
+            EndFireZone();
+        }
         float dist = Vector3.Distance(transform.position, playerPosition.position);
         if (scope != null)
         {
@@ -83,6 +107,17 @@ public class Vector9Movement : MonoBehaviour
                 scope.SetActive(true);    
         }
         stunIcon.SetActive(dist <= stunRange);
+
+
+
+
+        if (isFireApplied)
+        {
+            HandleFireZone();
+            return;
+        }
+
+
         if (dist <= chaseDistance)
         {
             isPlayerInRange = true;
@@ -111,72 +146,74 @@ public class Vector9Movement : MonoBehaviour
             Patrol();
         }
        
-        //else
-        //{
-        //    ChasePlayer();
-        //}
-
-            //float distance = Vector3.Distance(transform.position,playerPosition.position);
-
-            //if (distance <= attackRange)
-            //{
-            //    if (triggerCollider) triggerCollider.enabled = false;
-            //    if (solidCollider) solidCollider.enabled = true;
-            //}
+        
     }
 
 
+    void HandleFireZone()
+    {
+        animator.speed = 1f;
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (!gameOverTriggered && other.CompareTag("Player"))
-    //    {
-    //        gameOverTriggered = true;
-    //        StartCoroutine(GameOverSequence());
-    //    }
-    //}
+        // Vector9 will not chase during flamethrower sequence
+        if (!retreat)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            return;
+        }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (gameOverTriggered) return;
+        agent.isStopped = false;
+        agent.speed = fireFearRetreatSpeed;
+        agent.angularSpeed = 720f;
+        agent.acceleration = 25f;
 
-    //    if (collision.gameObject.CompareTag("Player"))
-    //    {
-    //        gameOverTriggered = true;
-    //        agent.isStopped = true;
-
-    //        if (jumpscareSource && jumpscareClip)
-    //        {
-    //            jumpscareSource.PlayOneShot(jumpscareClip);
-    //        }
-    //        StartCoroutine(GameOverSequence());
-    //    }
-    //}
+        Vector3 awayDir = (transform.position - playerPosition.position).normalized;
+        Vector3 retreatTarget = transform.position + awayDir * fireFearMinDistance;
 
 
-    //IEnumerator GameOverSequence()
-    //{
-    //    agent.isStopped = true;
-    //    inventory.SetActive(false);
-    //    staminaAndItem.SetActive(false);
-    //    scope.SetActive(false);
-    //    //animator.SetTrigger("AttackPlayer");
-    //    float t = 0f;
-    //    while (t < fadeDuration)
-    //    {
-    //        t += Time.deltaTime;
-    //        if (gameOverCanvas)
-    //        {
-    //            gameOverCanvas.alpha = Mathf.Lerp(0, 1, t / fadeDuration);
-    //        }
+        if (NavMesh.SamplePosition(retreatTarget, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+    }
 
-    //        yield return null;
-    //    }
+    public void ApplyFireZone(float duration)
+    {
+        if (isStunned)
+        {
+            return;
+        }
 
-    //    yield return new WaitForSeconds(4f);
-    //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        isFireApplied = true;
+        fireFearUntil = Mathf.Max(fireFearUntil, Time.time + duration);
+        // Disable vector9 detection during this time
+        chaseDistance = 0f;
+    }
 
-    //}
+    void EndFireZone()
+    {
+        isFireApplied = false;
+
+        // restore the default values for vector9 and end the flamethrower effects
+        chaseDistance = defaultChaseDistance;
+        vectorChaseSpeed = defaultChaseSpeed;
+        agent.angularSpeed = defaultAngularSpeed;
+        agent.acceleration = defaultAccel;
+
+        agent.isStopped = false;
+
+        if (patrolAreas.Length > 0)
+        {
+            agent.destination = patrolAreas[currentPatrolIndex].position;
+        }
+    }
+
+    
 
     void Patrol()
     {
