@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CrateSixUI : MonoBehaviour
 {
-    public GameObject crateui, equipIcon, playerCursor, equippedIcon;
+    public GameObject crateui, equipIcon, playerCursor;
 
     public static bool partsCollectedSix;
 
@@ -10,7 +10,7 @@ public class CrateSixUI : MonoBehaviour
     bool itemEquipped;
 
     private FPController cameraMovement;
-    public GameObject crateSix;
+    public GameObject itemRotation;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,7 +26,7 @@ public class CrateSixUI : MonoBehaviour
             playerCursor.SetActive(false);
             crateui.SetActive(true);
             equipIcon.SetActive(true);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -47,10 +47,10 @@ public class CrateSixUI : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 equipIcon.SetActive(false);
-                equippedIcon.SetActive(true);
+                itemRotation.SetActive(false);
                 itemEquipped = true;
                 partsCollectedSix = true;
-                crateSix.SetActive(false);
+                SparePartsCounter.Instance.AddPart();
             }
         }
     }
@@ -67,7 +67,7 @@ public class CrateSixUI : MonoBehaviour
             inRange = false;
             crateui.SetActive(false);
             equipIcon.SetActive(false);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(false);
             playerCursor.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

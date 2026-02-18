@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class CrateFiveUI : MonoBehaviour
 {
-    public GameObject crateui, equipIcon, playerCursor, equippedIcon;
+    public GameObject crateui, equipIcon, playerCursor;
 
     public static bool partsCollectedFive;
 
     bool inRange;
     bool itemEquipped;
-    public GameObject crateFive;
+
+    public GameObject itemRotation;
+
 
     private FPController cameraMovement;
 
@@ -26,7 +28,7 @@ public class CrateFiveUI : MonoBehaviour
             playerCursor.SetActive(false);
             crateui.SetActive(true);
             equipIcon.SetActive(true);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -47,11 +49,11 @@ public class CrateFiveUI : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 equipIcon.SetActive(false);
-                equippedIcon.SetActive(true);
+                itemRotation.SetActive(false);
                 itemEquipped = true;
                 partsCollectedFive = true;
                 SparePartsCounter.Instance.AddPart();
-                crateFive.SetActive(false);
+                
             }
         }
     }
@@ -68,7 +70,7 @@ public class CrateFiveUI : MonoBehaviour
             inRange = false;
             crateui.SetActive(false);
             equipIcon.SetActive(false);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(false);
             playerCursor.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class CrateFourUI : MonoBehaviour
 {
-    public GameObject crateui, equipIcon, playerCursor, equippedIcon;
+    public GameObject crateui, equipIcon, playerCursor;
 
     public static bool partsCollectedFour;
 
     bool inRange;
     bool itemEquipped;
-    public GameObject crateFour;
+
+    public GameObject itemRotation;
 
     private FPController cameraMovement;
 
@@ -26,7 +27,7 @@ public class CrateFourUI : MonoBehaviour
             playerCursor.SetActive(false);
             crateui.SetActive(true);
             equipIcon.SetActive(true);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -47,11 +48,11 @@ public class CrateFourUI : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 equipIcon.SetActive(false);
-                equippedIcon.SetActive(true);
+                itemRotation.SetActive(false);
                 itemEquipped = true;
                 partsCollectedFour = true;
                 SparePartsCounter.Instance.AddPart();
-                crateFour.SetActive(false);
+                
             }
         }
     }
@@ -68,7 +69,7 @@ public class CrateFourUI : MonoBehaviour
             inRange = false;
             crateui.SetActive(false);
             equipIcon.SetActive(false);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(false);
             playerCursor.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

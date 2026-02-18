@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class CrateUI : MonoBehaviour
 {
-    public GameObject crateui, equipIcon,playerCursor,equippedIcon;
+    public GameObject crateui, equipIcon,playerCursor;
+
+
 
     public static bool partsCollected;
-    public GameObject crate;
+    
+    public GameObject itemRotation;
 
     bool inRange;
     bool itemEquipped;
@@ -18,6 +21,7 @@ public class CrateUI : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             cameraMovement = other.GetComponent<FPController>();
+            
             if (cameraMovement != null)
             {
                 cameraMovement.lookXLimit = 0;
@@ -25,9 +29,10 @@ public class CrateUI : MonoBehaviour
             }
             inRange = true;
             playerCursor.SetActive(false);
+            itemRotation.SetActive(true);
             crateui.SetActive(true);
             equipIcon.SetActive(true);
-            equippedIcon.SetActive(false);
+            
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -49,12 +54,13 @@ public class CrateUI : MonoBehaviour
                 Cursor.visible = false;
                 crateui.SetActive(false);
                 equipIcon.SetActive(false);
-                equippedIcon.SetActive(true);
+                itemRotation.SetActive(false);
+                
                 itemEquipped = true;
                 partsCollected = true;
                 SparePartsCounter.Instance.AddPart();
 
-                crate.SetActive(false);
+                
             }
         }
     }
@@ -72,7 +78,8 @@ public class CrateUI : MonoBehaviour
             inRange = false;
             crateui.SetActive(false );
             equipIcon.SetActive(false);
-            equippedIcon.SetActive(false);
+            itemRotation.SetActive(false);
+            
             playerCursor.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

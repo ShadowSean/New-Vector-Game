@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Scene
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 69
+  controlID: 80
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 70
+  controlID: 81
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 71
+  controlID: 82
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -272,13 +272,13 @@ MonoBehaviour:
     y: 0
     width: 454
     height: 933
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 18}
   m_Panes:
-  - {fileID: 12}
   - {fileID: 18}
-  m_Selected: 1
+  - {fileID: 12}
+  m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
@@ -385,7 +385,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -455,10 +455,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 788}
-      m_SelectedIDs: 8cddffff
-      m_LastClickedID: -8820
-      m_ExpandedIDs: a448fdff00a1ffff40d1ffff8cd3fffff0dcfffff4dcfffff8dcffff82ddffff86ddffff8cddffffccfaffffeafaffffc8bb0000cec1000046c20000bec80000d2c90000fecf000076d0000084d000008a8406000e960600e6ba0600bebe0600e8bf060004c00600
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: f8d4ffffeafaffffb0be00005ec10000d6c100004ec20000aec200007ec3000086c300000cc8000026c9000082c900003ccb0000a0cc0000bccc0000f4cf00007ad00000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1132,9 +1132,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -65.4816, y: -2.2565236, z: 104.90861}
+    m_Target: {x: -27.44522, y: 3.106678, z: 98.71956}
     speed: 2
-    m_Value: {x: -65.4816, y: -2.2565236, z: 104.90861}
+    m_Value: {x: -27.44522, y: 3.106678, z: 98.71956}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1180,20 +1180,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.11909865, y: 0.6445161, z: -0.10255315, w: -0.7483614}
+    m_Target: {x: 0.017021324, y: -0.8061724, z: 0.02324122, w: 0.5911676}
     speed: 2
-    m_Value: {x: -0.120985016, y: 0.63868505, z: -0.102607846, w: -0.7529381}
+    m_Value: {x: 0.017019428, y: -0.80608255, z: 0.02323863, w: 0.59110177}
   m_Size:
-    m_Target: 12.857442
+    m_Target: 13.436027
     speed: 2
-    m_Value: 12.857442
+    m_Value: 13.436027
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1.3603196
-    m_SpeedNormalized: 0.6799998
+    m_Speed: 1.1804098
+    m_SpeedNormalized: 0.5899999
     m_SpeedMin: 0.001
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -1204,7 +1204,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: -0.04088624, y: -0.8049249, z: 0.055904094, w: -0.58946747}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
     m_SceneView: {fileID: 15}
@@ -1267,7 +1267,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Player
+    - Assets/Scripts/Enemies&Obstacles/Crates
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1277,16 +1277,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Player
+  - Assets/Scripts/Enemies&Obstacles/Crates
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\ezsea\Downloads\NewVectorGame
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 127}
-    m_SelectedIDs: f0fd0000
-    m_LastClickedID: 65008
-    m_ExpandedIDs: 00000000defc0000defd000000ca9a3b
+    scrollPos: {x: 0, y: 184}
+    m_SelectedIDs: 1efe0000
+    m_LastClickedID: 65054
+    m_ExpandedIDs: 00000000d4fc0000bcfd0000c0fd000008fe000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1315,7 +1315,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000defc0000
+    m_ExpandedIDs: 00000000d4fc0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

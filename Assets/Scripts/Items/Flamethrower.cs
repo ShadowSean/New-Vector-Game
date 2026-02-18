@@ -4,25 +4,34 @@ using System.Collections;
 public class Flamethrower : MonoBehaviour
 {
     [Header("Usage")]
-    public float cooldown = 20f;    // cooldown for the flamethrower(will be changed to uses later)
+    public float cooldown = 10f;    // cooldown for the flamethrower(will be changed to uses later)
     private bool canSlow = true; // boolean for knowing if slow can be applied
 
-    [Header("Fire Zone")]
-    public GameObject fireZoneObject;
-    public float zoneDuration = 5f;
+    [Header("Fire Effect")]
+    public float fearDuration = 5f;
+    public float castRange = 15f;
+    public LayerMask enemyLayer;
+
+    [Header("Capsule Raycast Settings")]
+    public float capsuleRadius = 0.6f;
+    public float capsuleHalfHeight = 0.6f;
 
     [Header("Particles")]
     public ParticleSystem muzzleParticles;
     public ParticleSystem zoneParticles;
 
+    Camera playerCam;
+
+    private void Start()
+    {
+        playerCam = Camera.main;
+    }
+
     private void OnEnable()
     {
         canSlow = true;
 
-        if (fireZoneObject != null)
-        {
-            fireZoneObject.SetActive(false);
-        }
+        
 
         StopAndClear(muzzleParticles);
         StopAndClear(zoneParticles);
@@ -30,10 +39,7 @@ public class Flamethrower : MonoBehaviour
 
     private void OnDisable()
     {
-        if (fireZoneObject != null)
-        {
-            fireZoneObject.SetActive(false);
-        }
+        
 
         StopAndClear(muzzleParticles);
         StopAndClear(zoneParticles);
@@ -53,11 +59,7 @@ public class Flamethrower : MonoBehaviour
     {
         canSlow = false;
 
-        //Enabling fire zone prefab
-        if (fireZoneObject != null)
-        {
-            fireZoneObject.SetActive(true);
-        }
+        
 
         //PLay the muzzle particles
         if (muzzleParticles != null)
@@ -70,18 +72,40 @@ public class Flamethrower : MonoBehaviour
             zoneParticles.Play();
         }
 
+        TryFearVector9();
+
         StopAllCoroutines();
         StartCoroutine(FlameDurationRoutine());
         StartCoroutine(CooldownRoutine());
     }
 
+    void TryFearVector9()
+    {
+        if (playerCam == null)
+        {
+            return;
+        }
+
+        Vector3 origin = playerCam.transform.position;
+        Vector3 dir = playerCam.transform.forward;
+
+        Vector3 start = origin + (-playerCam.transform.up * capsuleHalfHeight);
+        Vector3 end = origin + (playerCam.transform.up * capsuleHalfHeight);
+
+        if (Physics.CapsuleCast(start, end, capsuleRadius, dir, out RaycastHit hit, castRange, enemyLayer))
+        {
+            Vector9Movement vector9 = hit.collider.GetComponentInParent<Vector9Movement>();
+            if (vector9 != null)
+            {
+                vector9.ApplyFireZone(fearDuration);
+            }
+        }
+    }
+
     IEnumerator FlameDurationRoutine()
     {
-        yield return new WaitForSeconds(zoneDuration);
-        if (fireZoneObject != null)
-        {
-            fireZoneObject.SetActive(false);
-        }
+        yield return new WaitForSeconds(5f);
+        
 
         if (muzzleParticles != null)
         {
@@ -97,7 +121,6 @@ public class Flamethrower : MonoBehaviour
 
     IEnumerator CooldownRoutine()
     {
-        canSlow = false;
         yield return new WaitForSeconds(cooldown);
         canSlow = true;
     }
