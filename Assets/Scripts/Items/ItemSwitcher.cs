@@ -14,6 +14,21 @@ public class ItemSwitcher : MonoBehaviour
     public GameObject taserIcon;
     public GameObject batteryInt;
 
+    [Header("Audio Sources & Clips")]
+    public AudioSource itemSounds;
+    public AudioClip flashlightSound;
+
+    [Header("Flashlight Sound Timing")]
+    public float equipDelay = 0.15f;
+    public float toggleDelay = 0f;
+    public float soundCD = 0.08f;
+
+
+    Coroutine soundRoutine;
+    float nextSoundTime;
+    
+
+
     private TaserRodAttack attackController;
     LightBehaviour batteryBehaviour;
     public FasterGen fastRepairSpeed;
@@ -30,6 +45,12 @@ public class ItemSwitcher : MonoBehaviour
     {
         batteryBehaviour = flashlight_player.GetComponentInChildren<LightBehaviour>();
         attackController = taserRod_player.GetComponent<TaserRodAttack>();
+        
+        if (itemSounds == null)
+        {
+            itemSounds = GetComponent<AudioSource>();
+        }
+       
     }
     private void Update()
     {
@@ -37,6 +58,7 @@ public class ItemSwitcher : MonoBehaviour
         {
             flashlight_player.SetActive(true);
             animator.SetTrigger("Take Out");
+           
             EquipItem(1);
         }
 
@@ -44,6 +66,7 @@ public class ItemSwitcher : MonoBehaviour
         {
 
             animator.SetTrigger("Hide");
+            
 
             EquipItem(2);
         }
@@ -85,13 +108,35 @@ public class ItemSwitcher : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
+            //Only happens when flashlight is equipped
+            if (currentItemIndex != 1) return;
+
+            //Turn flashlight anim on
             bool isAnimating = animator.GetBool("On");
+            
             animator.SetBool("On", !isAnimating);
+
+            PlayFlashlightSFX(toggleDelay);
         }
 
     }
 
-    
+    void PlayFlashlightSFX(float delay)
+    {
+        if (itemSounds == null || flashlightSound == null) return;
+        if (Time.time < nextSoundTime) return;
+
+        nextSoundTime = Time.time + soundCD;
+
+        if (soundRoutine != null) StopCoroutine(soundRoutine);
+        soundRoutine = StartCoroutine(PlayFlashlightSFXRoutine(delay));
+    }
+
+    IEnumerator PlayFlashlightSFXRoutine(float delay)
+    {
+        if(delay > 0) yield return new WaitForSeconds(delay);
+        itemSounds.PlayOneShot(flashlightSound);
+    }
 
     void EquipItem(int index)
     {

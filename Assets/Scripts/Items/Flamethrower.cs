@@ -20,6 +20,8 @@ public class Flamethrower : MonoBehaviour
     public ParticleSystem muzzleParticles;
     public ParticleSystem zoneParticles;
 
+    
+
     Camera playerCam;
 
     private void Start()

@@ -10,11 +10,16 @@ public class TaserRodAttack : MonoBehaviour
     private bool canStun = true;
     private Camera playerCam;
 
+    [Header("Audio Settings")]
+    public AudioSource tasersound;
+    public AudioClip taserclip;
+
     
 
     void Start()
     {
         playerCam = Camera.main;
+        tasersound = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -39,6 +44,7 @@ public class TaserRodAttack : MonoBehaviour
 
             if (enemy != null && enemy.isStunned == false)
             {
+                tasersound.PlayOneShot(taserclip);
                 enemy.Stun();
                 StartCoroutine(CooldownRoutine());
             }
