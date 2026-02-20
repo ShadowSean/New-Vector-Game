@@ -14,7 +14,7 @@ public class DifficultyChanger1 : MonoBehaviour
     {
         selectDiffculty = Difficulty.Normal;
     }
-
+    
     public void HardDifficulty()
     {
         selectDiffculty = Difficulty.Hard;

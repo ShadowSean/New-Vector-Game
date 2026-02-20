@@ -7,7 +7,7 @@ public class SparePartsCounter : MonoBehaviour
 
     public TextMeshProUGUI counterText;
     public int totalParts = 6;
-    private int partCount = 0;
+    public int partCount = 0;
     public TextMeshProUGUI[] greenTexts;
 
     private void Awake()

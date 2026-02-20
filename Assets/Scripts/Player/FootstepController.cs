@@ -29,7 +29,7 @@ public class FootstepController : MonoBehaviour
     void Update()
     {
         float speed = new Vector3(controller.velocity.x, 0, controller.velocity.z).magnitude;
-        print(speed);
+        
         bool isWalking = speed >= walkSpeedMin && speed < walkSpeedMax;
         bool isSprinting = speed >= sprintSpeedMin;
 

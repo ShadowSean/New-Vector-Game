@@ -34,9 +34,9 @@ public class ItemSwitcher : MonoBehaviour
     public FasterGen fastRepairSpeed;
 
     private int currentItemIndex = 0;
-    private bool hasFlashlight = false;
-    private bool hasTaser = false;
-    bool hasFlamethrower;
+    public bool hasFlashlight = false;
+    public bool hasTaser = false;
+    public bool hasFlamethrower;
     bool hasBattery;
     GameObject batteryPrefab;
     

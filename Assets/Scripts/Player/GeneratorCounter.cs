@@ -7,7 +7,7 @@ public class GeneratorCounter : MonoBehaviour
 
     public TextMeshProUGUI counterText;
     public int totalGens = 6;
-    private int partCount = 0;
+    public int partCount = 0;
     public TextMeshProUGUI[] greenTexts;
     public int FixedCount
     {
